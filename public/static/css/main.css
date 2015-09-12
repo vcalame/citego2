@@ -1,0 +1,122 @@
+
+
+h1 {
+ margin-left: 20px;
+ font-size: 25px;
+}
+
+h2 {
+ font-size: 20px;   
+}
+
+h3 {
+ font-size: 16px;
+ font-style: italic;
+}
+
+
+div.soussecteur {
+    padding-left: 50px;
+}
+
+p.Lien_Dsmd {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+span.Total_Zero {
+    color: gray;   
+}
+
+span.Total_Positif {
+    color: green;
+}
+
+
+p.CreationTitre {
+ margin-top : 30px;
+ border-top-width: 1px;
+ border-top-style: solid;
+ border-top-color: #E7E7E7;
+}
+
+ul.ListeDescripteursPrincipaux {
+ margin-top: 30px;   
+}
+
+
+p.Submit  {
+ text-align: center;
+ margin-top: 20px;
+ padding: 10px;
+ border-top-width: 1px;
+ border-top-style: solid;
+ border-top-color: #171717;
+ border-bottom-width: 1px;
+ border-bottom-style: solid;
+ border-bottom-color: #171717;
+}
+
+textarea {
+    vertical-align: top;
+}
+
+div.BlocSecteur {
+ margin-top: 35px;   
+}
+
+li.Descripteur {
+    margin-top: 12px;
+}
+
+p.Descripteur_Lib {
+    margin-bottom: 4px;
+    line-height: 1.4em;
+}
+
+.Lien_Modification, .Lien_Plus {
+ margin-top: 0;
+ margin-left: 20px;
+  
+}
+
+li.Plus {
+ list-style: none;
+  margin-top: 12px;
+}
+
+dt {
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+dd {
+    margin-left: 20px;
+}
+
+.Origine {
+ color: #aaa;   
+}
+
+div.Sousformulaire {
+    margin-left: 20px;
+}
+
+p.Erreur_Reaffectation {
+ color: #f00;   
+}
+
+p.Erreur_Famille  {
+    color: #f00;  
+}
+
+div.Sousformulaire label {
+    font-weight: normal;
+}
+
+a.Dossier {
+ color: #CC3300;
+ 
+}
+    

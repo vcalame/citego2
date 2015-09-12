@@ -1,0 +1,190 @@
+/**
+* Instructions générales
+*/
+body {
+  background-color: #F8F8F8;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.2em;
+  margin: 15px;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -o-hyphens: auto;
+  hyphens: auto;
+}
+
+h1, p {
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+/**
+* Blocs particuliers
+*/
+
+#DSM_arborescenceViewport {
+  display: none; 
+}
+
+#DSM_famillesContent {
+  font-size: 12px;
+}
+
+/* *
+ * Blocs du desmogramme
+ */
+div.dsm-desmogramme-Centre {
+  position: absolute;
+  left: 0;
+  max-width: 180px;
+  z-index: 100;
+}
+
+div.dsm-desmogramme-Liaison {
+  position: absolute;
+  left: 0;
+  max-width: 140px;
+  z-index: 100;
+}
+
+div.dsm-desmogramme-Bordure {
+  position: absolute;
+  left: 0;
+  max-width: 120px;
+  z-index: 80;
+}
+
+div.dsm-desmogramme-Bordure:hover {
+  z-index: 1000;
+}
+
+/* *
+ * Blocs de l'arborescence
+ */
+div.dsm-arborescence-Secteurs {
+  margin-left: 20px;
+  padding-left: 20px;
+  border-left-width: 2px;
+  border-left-style: solid;
+}
+
+div.dsm-arborescence-Soussecteurs {
+  margin-left: 80px;
+  padding-left: 20px;
+  border-left-width: 2px;
+  border-left-style: solid;
+}
+
+div.dsm-arborescence-Secteurs li {
+  margin-bottom: 18px;  
+}
+
+
+
+/* *
+ * Blocs des familles
+ */
+ul.dsm-familles-Liste {  
+  margin-left: 0;
+  padding-left: 0;
+}
+
+ul.dsm-familles-Liste li {
+  list-style: none;
+  margin-bottom: 3px;
+}
+
+.dsm-familles-Level_1 {
+  margin-left: 0;
+  padding-left: 0;
+}
+
+
+
+/**
+ * Span correspondant à un terme
+ */
+span.dsm-terme-Boite_Centre {
+  display: block;
+  padding: 3px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #555;
+  font-size: 12px;
+  background-color: white;
+  text-align: center;
+}
+
+span.dsm-terme-Boite_Liaison {
+  display: block;
+  padding: 3px;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #555;
+  font-size: 11px;
+  background-color: white;
+}
+
+span.dsm-terme-Boite_Liaison:hover {
+  border-color: blue;
+}
+
+span.dsm-terme-Boite_Liaison a {
+  color: inherit;
+}
+
+
+span.dsm-terme-Boite_Liaison a:visited {
+  color: inherit;
+}
+
+span.dsm-terme-Boite_Bordure {
+  display: block;
+  font-size: 10px;
+  text-align: center;
+  background-color: white;
+}
+
+span.dsm-terme-Boite_Bordure a {
+  color: inherit;
+}
+
+span.dsm-terme-Boite_Bordure a:hover {
+  color: inherit;
+  text-decoration: underline;
+}
+
+span.dsm-terme-Boite_Bordure a:visited {
+  color: inherit;
+}
+
+span.dsm-terme-Arbo_Root {
+  font-weight: bold;
+  padding: 5px;
+}
+
+span.dsm-terme-Arbo_Secteur {
+  font-weight: bold;
+  display: block;
+  margin-top: 35px;
+}
+
+span.dsm-terme-Arbo_Liaison {
+  padding: 5px;
+}
+
+span.dsm-terme-Arbo_Liaison a {
+  color: inherit;
+}
+

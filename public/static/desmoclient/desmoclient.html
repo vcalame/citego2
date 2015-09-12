@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Desmoclient</title>
+    <link rel="stylesheet" href="desmoclient.css">
+    <link rel="stylesheet" href="dsmconfig-citego.css">
+    <style>
+      #bloc_viewport {
+        margin-left: 205px;
+      }
+      
+      #DSM_desmogrammeContent {
+        width: 1000px;
+        height: 600px;
+      }
+      
+      #DSM_famillesViewport {
+        float: left;
+        width: 200px;
+        height: 700px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Desmoclient</h1>
+    <div>
+      <div id="DSM_famillesViewport"><div id="DSM_famillesContent"></div></div>
+      <div id="bloc_viewport">
+        <p>
+        <input type="radio" name="viewport" id="DSM_desmogrammeButton" checked="true"><label for="DSM_desmogrammeButton">Desmogramme</label>
+        <input type="radio" name="viewport" id="DSM_arborescenceButton"><label for="DSM_arborescenceButton">Arborescence</label>
+        </p>
+        <div id="DSM_desmogrammeViewport"><div id="DSM_desmogrammeContent"></div></div>
+        <div id="DSM_arborescenceViewport"><div id="DSM_arborescenceContent"></div></div>
+      </div>
+    </div>
+    <script src="dsmconfig-citego.js"></script>
+    <script src="desmoclient.js"></script>
+  </body>
+</html>
