@@ -1,10 +1,17 @@
 <% @title="Menu" %>
 <% @with_form_js=false %>
+<% @familles = Desmoservice::Familles.download(desmoservice_conf, selection_idctxt: 'grille') %>
 <div class="small">
-<div class="row">
-    <%= desmoservice_conf.build_json_url("test" => "ici") %>
+<% @familles[0].descripteurs.each do |descripteur| %>
+   <h5><%= descripteur.code %></h5>
+   <ul>
+    <li><a href="?page=liste-niveau1&grille=<%= descripteur.iddesc %>" target="Saisie">Liste des niveaux 1</a></li>
+    <li><a href="../static/desmoclient/desmoclient.html#<%= descripteur.code %>|ventilation:naturelle" target="Saisie">Desmogramme</a></li>
+    <li><a href="?page=dossiers&amp;grille=<%= descripteur.iddesc %>" target="Saisie">Dossiers Citego</a></li>
+   </ul>
+<% end %>
 
-    <h5><em>Autres liens</em></h5>
+<h5><em>Autres liens</em></h5>
     <ul>
         <li>
             <a href="../static/desmoclient/desmoclient.html"  target="Saisie">Desmographie en ligne</a>
@@ -22,5 +29,4 @@
             <a href="?page=listepermutee&amp;niveau=tous" target="Saisie">Liste permutée complète</a>
         </li>
     </ul>
-    </div>
 </div>

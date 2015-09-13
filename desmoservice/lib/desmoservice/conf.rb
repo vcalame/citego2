@@ -9,7 +9,7 @@ module Desmoservice
       raise "Missing service_url" if service_url.nil?
       raise "Missing desmo_name" if desmo_name.nil?
       raise "Missing lang" if lang.nil?
-      if service_url[-1] != "/" then
+      if service_url[-1] != "/"
         service_url << "/"
       end
       @service_url = service_url
@@ -21,12 +21,13 @@ module Desmoservice
     def build_json_url(parameters)
       map = {"desmo" => @desmo_name, "lang" => @lang}
       map.merge!(parameters)
+      map.delete_if { |k, v| v.nil? }
       return @service_url + "json?" + URI.encode_www_form(map)
     end
     
     def build_dsmd_url
       dsmd_url = @service_url + "export/" + @desmo_name + "_" + @lang + ".dsmd"
-      if @dsmd_script then
+      if @dsmd_script
         dsmd_url += "?script=" + @dsmd_script
       end
       return dsmd_url

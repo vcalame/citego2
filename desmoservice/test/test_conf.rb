@@ -12,9 +12,15 @@ class TestConf < Minitest::Test
     })
   end
   
-  def test_build
-    assert_equal('http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice/export/citego_fr.dsmd?script=niveau1_par_dimension',
-      @conf.build_dsmd_url)
+  def test_url_building
+    assert_equal(
+      'http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice/export/citego_fr.dsmd?script=niveau1_par_dimension',
+      @conf.build_dsmd_url
+    )
+    assert_equal(
+      'http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice/json?desmo=citego&lang=fr&fields=iddesc%2Clibelles%2Cattrs',
+      @conf.build_json_url(fields: 'iddesc,libelles,attrs',selection_idctxt: nil)
+    )
   end
     
 
