@@ -1,4 +1,12 @@
 require 'sinatra'
+require_relative 'desmoservice/lib/desmoservice/conf'
+
+desmoservice_conf = Desmoservice::Conf.new({
+  service_url:  'http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice',
+  desmo_name: 'citego',
+  lang: 'fr',
+  dsmd_script: 'niveau1_par_dimension'
+  })
 
 get '/' do
   "Hello World!"
@@ -17,9 +25,9 @@ get '/edition/' do
 end
 
 get '/edition/accueil' do
-  erb :edition_accueil
+  erb(:edition_accueil)
 end
 
 get '/edition/menu' do
-  erb :edition_menu
+  erb(:edition_menu, :locals => {desmoservice_conf: desmoservice_conf})
 end

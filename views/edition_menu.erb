@@ -1,7 +1,26 @@
 <% @title="Menu" %>
 <% @with_form_js=false %>
 <div class="small">
+<div class="row">
+    <%= desmoservice_conf.build_json_url("test" => "ici") %>
 
-Menu
-
+    <h5><em>Autres liens</em></h5>
+    <ul>
+        <li>
+            <a href="../static/desmoclient/desmoclient.html"  target="Saisie">Desmographie en ligne</a>
+        </li>
+        <li>
+            <a href="<%= desmoservice_conf.build_dsmd_url %>">Desmographie complète au format .dsmd</a>
+        </li>
+        <li>
+            <a href="?page=listepermutee&amp;niveau=N1" target="Saisie">Liste permutée des niveaux 1</a>
+        </li>
+        <li>
+            <a href="?page=listepermutee&amp;niveau=N2" target="Saisie">Liste permutée des niveaux 2</a>
+        </li>
+        <li>
+            <a href="?page=listepermutee&amp;niveau=tous" target="Saisie">Liste permutée complète</a>
+        </li>
+    </ul>
+    </div>
 </div>
