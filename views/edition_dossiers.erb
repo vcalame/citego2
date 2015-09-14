@@ -1,4 +1,4 @@
-<% @familles = Desmoservice::Familles.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color') %>
+<% @families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color') %>
 <% @title="Liste des dossiers" %>
 <% @with_form_js=false %>
 
@@ -13,12 +13,12 @@
   famille_filter: "dossier"
 }
 @done = {}
-@familles.each do |famille| 
-  @current_famille_code = famille.code
-  famille.children.each do |sousfamille|
-    @current_sousfamille_code = sousfamille.code
-    sousfamille.descripteurs.each do |descripteur|
-      @ventilation_params[:root_code] = descripteur.code
+@families.each do |family| 
+  @current_famille_id = family.id
+  family.children.each do |subfamily|
+    @current_subfamily_id = subfamily.id
+    subfamily.descripteurs.each do |descripteur|
+      @ventilation_params[:root_code] = descripteur.id
       ventilation = Desmoservice::Ventilation.download(desmoservice_conf, @ventilation_params)
     %><p><%= ventilation.url%></p><%
     end

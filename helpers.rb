@@ -3,28 +3,26 @@ helpers do
     return Rack::Utils.escape_html(text)
   end
   
-  def text_with_id(terme)
+  def text_with_key(term)
     result = ''
-    if terme.iddesc?
-      result = terme.iddesc
-    elsif terme.idctxt?
-      result = terme.idctxt
+    if term.key?
+      result += term.key
     end
-    if terme.text?
-      result += ' – ' + terme.text
+    if term.text?
+      result += ' – ' + term.text
     end
     return Rack::Utils.escape_html(result)
   end
   
-  def span_color(descripteur)
+  def span_color(term)
     result = ''
-    if descripteur.color
-      result += '<span style="background-color:' + descripteur.color + '">' + descripteur.iddesc + '</span>'
+    if term.color?
+      result += '<span style="background-color:' + term.color + '">' + term.key + '</span>'
     else
-      result += descripteur.iddesc
+      result += term.key
     end
-    if descripteur.text
-      result += ' – ' + Rack::Utils.escape_html(descripteur.text)
+    if term.text
+      result += ' – <span class="Lib">' + Rack::Utils.escape_html(term.text) + '</span>'
     end
     return result
   end

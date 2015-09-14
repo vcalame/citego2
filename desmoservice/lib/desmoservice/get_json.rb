@@ -3,22 +3,23 @@ require 'json'
 require_relative 'conf'
 
 module Desmoservice
-class Familles
+class Families
   include Enumerable
   
-  attr_reader :url, :data, :array, :sansfamille
+  attr_reader :url, :data, :orphan_members
   
   def initialize(url)
     @url = url
     @array = Array.new
+    @orphan_members = Array.new
   end
   
   def self.download(desmoservice_conf, options = nil)
     url = build_json_url(desmoservice_conf, options)
-    familles = Familles.new(url)
+    families = Families.new(url)
     json_string = open(url).read
-    familles.parse_json(json_string)
-    return familles
+    families.parse_json(json_string)
+    return families
   end
   
   def self.build_json_url(desmoservice_conf, options = nil)
@@ -46,10 +47,10 @@ class Familles
     if data.has_key?('familles')
       familles = data['familles']
       if familles.has_key?('familleArray')
-        familles['familleArray'].each {|v| @array << Famille.new(v)}
+        familles['familleArray'].each {|v| @array << Family.new(v)}
       end
       if familles.has_key?('sansfamille')
-
+        familles['descripteurArray'].each {|v| @orphan_members << Term.new(v)}
       end
     end
   end
@@ -128,12 +129,17 @@ class Ventilation
 end
 
 class Term
-  attr_reader :code, :iddesc, :idctxt, :text, :color
+  attr_reader :id, :key, :text, :color
   
   def initialize(data)
-    @code = data['code']
-    @idctxt = data['idctxt']
-    @iddesc = data['iddesc']
+    @id = data['code']
+    @key = if data.has_key?('iddesc')
+             data['iddesc']
+           elsif data.has_key?('idctxt')
+             data['idctxt']
+           else
+             nil
+           end
     @text = nil
     if data.has_key?('libelles')
       if data['libelles'].length > 0
@@ -146,14 +152,10 @@ class Term
     end
   end
   
-  def iddesc?
-    return !@iddesc.nil?
+  def key?
+    return !@key.nil?
   end
-  
-  def idctxt?
-    return !@idctxt.nil?
-  end
-  
+
   def text?
     return !@text.nil?
   end
@@ -163,19 +165,19 @@ class Term
   end
 end
 
-class Famille < Term
+class Family < Term
   
-  attr_reader :descripteurs, :children
+  attr_reader :members, :subfamilies
   
   def initialize(data)
     super(data['terme'])
-    @children = Array.new
-    @descripteurs = Array.new
+    @subfamilies = Array.new
+    @members = Array.new
     if data.has_key?('descripteurArray')
-      data['descripteurArray'].each {|v| @descripteurs << Term.new(v)}
+      data['descripteurArray'].each {|v| @members << Term.new(v)}
     end
     if data.has_key?('familleArray')
-      data['familleArray'].each {|v| @children << Famille.new(v)}
+      data['familleArray'].each {|v| @subfamilies << Family.new(v)}
     end
     
   end

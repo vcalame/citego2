@@ -17,23 +17,23 @@ class TestFamilles < Minitest::Test
   def test_url
     assert_equal(
       'http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice/json?desmo=citego&lang=fr&type=familles&fields=iddesc%2Clibelles%2Cattrs&selection_idctxt=grille',
-      Desmoservice::Familles.build_json_url(@conf, {selection_idctxt: 'grille', 'type' => 'Truc', type: 'Machin'})
+      Desmoservice::Families.build_json_url(@conf, {selection_idctxt: 'grille', 'type' => 'Truc', type: 'Machin'})
     )
   end
   
   def test_json
-    familles =  Desmoservice::Familles.new("")
-    familles.parse_json(@json)
-    assert_equal(1, familles.length)
-    assert_equal(9, familles[0].descripteurs.length)
-    assert_equal("Grilles de départ", familles[0].text)
-    assert_equal("Éléments constitutifs des territoires, des villes et de la gouvernance territoriale", familles[0].descripteurs[0].text)
+    families =  Desmoservice::Families.new("")
+    families.parse_json(@json)
+    assert_equal(1, families.length)
+    assert_equal(9, families[0].members.length)
+    assert_equal("Grilles de départ", families[0].text)
+    assert_equal("Éléments constitutifs des territoires, des villes et de la gouvernance territoriale", families[0].members[0].text)
   end
   
   def test2_download
-    familles = Desmoservice::Familles.download(@conf, selection_idctxt: 'grille')
-    assert_equal(1, familles.length)
-    assert_equal(9, familles[0].descripteurs.length)
+    families = Desmoservice::Families.download(@conf, selection_idctxt: 'grille')
+    assert_equal(1, families.length)
+    assert_equal(9, families[0].members.length)
   end
 end
 
@@ -46,7 +46,7 @@ class TestTerm < Minitest::Test
   
   def test_json
     data = JSON.parse(@json)
-    term = Desmoservice::Terme.new(data)
+    term = Desmoservice::Term.new(data)
     assert_equal("Domaines de la gouvernance territoriale", term.text)
   end
   
