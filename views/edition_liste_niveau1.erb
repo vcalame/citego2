@@ -1,0 +1,26 @@
+<% @familles = Desmoservice::Familles.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color') %>
+<% @title="Liste des niveaux 1" %>
+<% @with_form_js=false %>
+
+<div class="row">
+<div class="col-md-12">
+
+<% @familles.each do |famille| %>
+  <h2><%= text_with_id(famille) %></h2>
+  <% famille.children.each do |sousfamille| %>
+    <h3><%= text_with_id(sousfamille) %></h3>
+    <ul class="ListeDescripteursPrincipaux">
+      <% sousfamille.descripteurs.each do |descripteur| %>
+        <li>
+          <p>
+            <%= span_color(descripteur)%>
+            <small>(<a href="?page=form_niveau1&amp;code=<%= descripteur.iddesc%>">Regroupement Niveaux 2</a>)</small>
+          </p>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>
+
+</div>
+</div>

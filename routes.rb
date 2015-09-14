@@ -11,7 +11,7 @@ desmoservice_conf = Desmoservice::Conf.new({
 
 helpers do
   def h(text)
-    Rack::Utils.escape_html(text)
+    return Rack::Utils.escape_html(text)
   end
   
   def text_with_id(terme)
@@ -24,24 +24,39 @@ helpers do
     if terme.text
       result += ' – ' + terme.text
     end
-    Rack::Utils.escape_html(result)
+    return Rack::Utils.escape_html(result)
+  end
+  
+  def span_color(descripteur)
+    result = ''
+    if descripteur.color
+      result += '<span style="background-color:' + descripteur.color + '">' + descripteur.iddesc + '</span>'
+    else
+      result += descripteur.iddesc
+    end
+    if descripteur.text
+      result += ' – ' + Rack::Utils.escape_html(descripteur.text)
+    end
+    return result
   end
 end
 
 def load_edition_view(request, desmoservice_conf)
+  locals = {desmoservice_conf: desmoservice_conf}
   case request['page']
   when nil
     erb(:edition_index, layout: false)
   when 'menu'
-    erb(:edition_menu, locals: {desmoservice_conf: desmoservice_conf})
+    erb(:edition_menu, locals: locals)
   when 'accueil'
     erb(:edition_accueil)
   when 'liste_niveau1'
-    famille = 'niveau1@!'
+    selection_idctxt = 'niveau1@!'
     if request['grille']
-      famille = request['grille'] + '@'
+      selection_idctxt = request['grille'] + '@'
     end
-    erb(:edition_liste_niveau1, locals: {desmoservice_conf: desmoservice_conf, famille: famille})
+    locals[:selection_idctxt] = selection_idctxt
+    erb(:edition_liste_niveau1, locals: locals)
   end
 end
 

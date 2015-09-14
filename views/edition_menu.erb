@@ -1,32 +1,33 @@
 <% @title="Menu" %>
 <% @with_form_js=false %>
 <% @familles = Desmoservice::Familles.download(desmoservice_conf, selection_idctxt: 'grille') %>
-<div class="small">
-<% @familles[0].descripteurs.each do |descripteur| %>
-   <h5><%= text_with_id(descripteur) %></h5>
-   <ul>
-    <li><a href="?page=liste_niveau1&amp;grille=<%= descripteur.iddesc %>" target="Saisie">Liste des niveaux 1</a></li>
-    <li><a href="../static/desmoclient/desmoclient.html#<%= descripteur.code %>|ventilation:naturelle" target="Saisie">Desmogramme</a></li>
-    <li><a href="?page=dossiers&amp;grille=<%= descripteur.iddesc %>" target="Saisie">Dossiers Citego</a></li>
-   </ul>
-<% end %>
 
-<h5><em>Autres liens</em></h5>
+<div class="small">
+  <% @familles[0].descripteurs.each do |descripteur| %>
+    <h5><%= text_with_id(descripteur) %></h5>
     <ul>
-        <li>
-            <a href="../static/desmoclient/desmoclient.html"  target="Saisie">Desmographie en ligne</a>
-        </li>
-        <li>
-            <a href="<%= desmoservice_conf.build_dsmd_url %>">Desmographie complète au format .dsmd</a>
-        </li>
-        <li>
-            <a href="?page=listepermutee&amp;niveau=N1" target="Saisie">Liste permutée des niveaux 1</a>
-        </li>
-        <li>
-            <a href="?page=listepermutee&amp;niveau=N2" target="Saisie">Liste permutée des niveaux 2</a>
-        </li>
-        <li>
-            <a href="?page=listepermutee&amp;niveau=tous" target="Saisie">Liste permutée complète</a>
-        </li>
+      <li><a href="?page=liste_niveau1&amp;grille=<%= descripteur.iddesc %>" target="Saisie">Liste des niveaux 1</a></li>
+      <li><a href="../static/desmoclient/desmoclient.html#<%= descripteur.code %>|ventilation:naturelle" target="Saisie">Desmogramme</a></li>
+      <li><a href="?page=dossiers&amp;grille=<%= descripteur.iddesc %>" target="Saisie">Dossiers Citego</a></li>
     </ul>
+  <% end %>
+
+  <h5><em>Autres liens</em></h5>
+  <ul>
+    <li>
+      <a href="../static/desmoclient/desmoclient.html"  target="Saisie">Desmographie en ligne</a>
+    </li>
+    <li>
+      <a href="<%= desmoservice_conf.build_dsmd_url %>">Desmographie complète au format .dsmd</a>
+    </li>
+    <li>
+      <a href="?page=listepermutee&amp;niveau=N1" target="Saisie">Liste permutée des niveaux 1</a>
+    </li>
+    <li>
+      <a href="?page=listepermutee&amp;niveau=N2" target="Saisie">Liste permutée des niveaux 2</a>
+    </li>
+    <li>
+      <a href="?page=listepermutee&amp;niveau=tous" target="Saisie">Liste permutée complète</a>
+    </li>
+  </ul>
 </div>

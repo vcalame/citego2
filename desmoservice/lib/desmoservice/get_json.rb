@@ -55,8 +55,8 @@ class Familles
   end
   
   def each
-    @array.each do
-      yield
+    @array.each do |v|
+      yield(v)
     end
   end
   
@@ -86,7 +86,12 @@ class Famille
     if data.has_key?('familleArray')
       data['familleArray'].each {|v| @children << Famille.new(v)}
     end
-    
+    @text = nil
+    if terme.has_key?('libelles')
+      if terme['libelles'].length > 0
+        @text = terme['libelles'][0]['lib']
+      end
+    end
   end
   
   def active?
@@ -96,7 +101,7 @@ end
 
 class Descripteur
   
-  attr_reader :code, :iddesc, :text
+  attr_reader :code, :iddesc, :text, :color
   
   def initialize(data)
     @code = data['code']
@@ -106,6 +111,10 @@ class Descripteur
       if data['libelles'].length > 0
         @text = data['libelles'][0]['lib']
       end
+    end
+    @color = nil
+    if data.has_key?('familleColor')
+      @color = data['familleColor']
     end
   end
 end
