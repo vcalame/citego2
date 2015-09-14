@@ -3,9 +3,9 @@
 <% @familles = Desmoservice::Familles.download(desmoservice_conf, selection_idctxt: 'grille') %>
 <div class="small">
 <% @familles[0].descripteurs.each do |descripteur| %>
-   <h5><%= text_with_iddesc(descripteur) %></h5>
+   <h5><%= text_with_id(descripteur) %></h5>
    <ul>
-    <li><a href="?page=liste-niveau1&grille=<%= descripteur.iddesc %>" target="Saisie">Liste des niveaux 1</a></li>
+    <li><a href="?page=liste_niveau1&amp;grille=<%= descripteur.iddesc %>" target="Saisie">Liste des niveaux 1</a></li>
     <li><a href="../static/desmoclient/desmoclient.html#<%= descripteur.code %>|ventilation:naturelle" target="Saisie">Desmogramme</a></li>
     <li><a href="?page=dossiers&amp;grille=<%= descripteur.iddesc %>" target="Saisie">Dossiers Citego</a></li>
    </ul>

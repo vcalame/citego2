@@ -14,10 +14,15 @@ helpers do
     Rack::Utils.escape_html(text)
   end
   
-  def text_with_iddesc(descripteur)
-    result = descripteur.iddesc
-    if descripteur.text
-      result += ' – ' + descripteur.text
+  def text_with_id(terme)
+    result = ''
+    if terme.respond_to?(:iddesc)
+      result = terme.iddesc
+    elsif terme.respond_to?(:idctxt)
+      result = terme.idctxt
+    end
+    if terme.text
+      result += ' – ' + terme.text
     end
     Rack::Utils.escape_html(result)
   end
@@ -27,10 +32,16 @@ def load_edition_view(request, desmoservice_conf)
   case request['page']
   when nil
     erb(:edition_index, layout: false)
-  when "menu"
+  when 'menu'
     erb(:edition_menu, locals: {desmoservice_conf: desmoservice_conf})
-  when "accueil"
+  when 'accueil'
     erb(:edition_accueil)
+  when 'liste_niveau1'
+    famille = 'niveau1@!'
+    if request['grille']
+      famille = request['grille'] + '@'
+    end
+    erb(:edition_liste_niveau1, locals: {desmoservice_conf: desmoservice_conf, famille: famille})
   end
 end
 

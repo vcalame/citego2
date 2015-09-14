@@ -49,7 +49,7 @@ class Familles
         familles['familleArray'].each {|v| @array << Famille.new(v)}
       end
       if familles.has_key?('sansfamille')
-        @sansfamille = Famille.new(familles['sansfamille'], true)
+
       end
     end
   end
@@ -72,14 +72,21 @@ end
 
 class Famille
   
-  attr_reader :code, :descripteurs, :children
+  attr_reader :code, :descripteurs, :children, :text, :idctxt
   
   def initialize(data)
+    terme = data['terme']
+    @code = terme['code']
+    @idctxt =terme['idctxt']
     @children = Array.new
     @descripteurs = Array.new
     if data.has_key?('descripteurArray')
       data['descripteurArray'].each {|v| @descripteurs << Descripteur.new(v)}
     end
+    if data.has_key?('familleArray')
+      data['familleArray'].each {|v| @children << Famille.new(v)}
+    end
+    
   end
   
   def active?
