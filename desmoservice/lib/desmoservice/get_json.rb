@@ -73,11 +73,11 @@ end
 
 class Ventilation
   
-  attr_reader :url, :secteurs
+  attr_reader :url, :sectors
   
   def initialize(url)
     @url = url
-    @secteurs = Array.new
+    @sectors = Array.new
   end
   
   def self.download(desmoservice_conf, options = nil)
@@ -92,7 +92,7 @@ class Ventilation
     default = {
       type: 'ventilation',
       fields: 'iddesc,libelles,attrs',
-      root_uri: 'home',
+      root_uri: nil,
       root_code: nil,
       fields_root: nil,
       fields_liaison: nil,
@@ -124,12 +124,15 @@ class Ventilation
     data = JSON.parse(json_string)
     if data.has_key?('ventilation')
       ventilation = data['ventilation']
+      if ventilation.has_key?('secteurArray')
+        ventilation['secteurArray'].each {|v| @sectors << Sector.new(v)}
+      end
     end
   end
 end
 
 class Term
-  attr_reader :id, :key, :text, :color
+  attr_reader :id, :key, :text, :color, :attrs
   
   def initialize(data)
     @id = data['code']
@@ -150,6 +153,10 @@ class Term
     if data.has_key?('familleColor')
       @color = data['familleColor']
     end
+    @attrs = nil
+    if data.has_key?('attrs')
+      @attrs = data['attrs']
+    end
   end
   
   def key?
@@ -162,6 +169,24 @@ class Term
   
   def color?
     return !@color.nil?
+  end
+  
+  def has_attr?
+    if @attrs.nil?
+      return false
+    else
+      return @attrs.has_key?(key)
+    end
+  end
+  
+  def [](key)
+    if @attrs.nil?
+      return "trus"
+    elsif !@attrs.has_key?(key)
+      return "muche"
+    else
+      return @attrs[key]
+    end
   end
 end
 
@@ -185,6 +210,31 @@ class Family < Term
   def active?
     return true
   end
+end
+
+class Sector < Term
+  
+  attr_reader :subsectors, :liaisons
+  
+  def initialize(data)
+    super(data['terme'])
+    @liaisons = Array.new
+    if data.has_key?('liaisonArray')
+      data['liaisonArray'].each {|v| @liaisons << Liaison.new(v)}
+    end
+  end
+  
+end
+
+class Liaison < Term
+  
+  attr_reader :position
+  
+  def initialize(data)
+    super(data['terme'])
+    @position = data['position']
+  end
+  
 end
     
 end

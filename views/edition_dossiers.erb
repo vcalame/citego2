@@ -7,24 +7,56 @@
 
 <%
 @ventilation_params = {
-  name: 'ventilation:grille:simple',
-  fields: 'libelles,iddesc,attrs,famille-color',
-  ignore_empty: false,
-  famille_filter: "dossier"
+  name: 'ventilation:contexte:simple/dossier',
+  fields: 'libelles,iddesc,attrs,famille-color,idctxt',
+  ignore_empty: true
 }
-@done = {}
+@done = Hash.new
 @families.each do |family| 
-  @current_famille_id = family.id
-  family.children.each do |subfamily|
+  @current_family_id = family.id
+  family.subfamilies.each do |subfamily|
     @current_subfamily_id = subfamily.id
-    subfamily.descripteurs.each do |descripteur|
-      @ventilation_params[:root_code] = descripteur.id
+    subfamily.members.each do |member|
+      @ventilation_params[:root_code] = member.id
       ventilation = Desmoservice::Ventilation.download(desmoservice_conf, @ventilation_params)
-    %><p><%= ventilation.url%></p><%
+      ventilation.sectors.each do |sector|
+        if sector.key == 'dossier'
+          @done[@current_family_id] = true
+          @done[@current_subfamily_id] = true
+          @done[member.id] = sector
+          break
+        end
+      end
     end
   end
-
 end%>
+
+<% @families.each do |family| %>
+  <%if @done.has_key?(family.id) %>
+    <h2><%= text_with_key(family) %></h2>
+    <% family.subfamilies.each do |subfamily|%>
+      <% if @done.has_key?(subfamily.id) %>
+        <h3><%= text_with_key(subfamily) %></h3>
+        <ul class="ListeDescripteursPrincipaux">
+          <% subfamily.members.each do |member|%>
+            <% if @done.has_key?(member.id) %>
+              <li>
+                <p><%= span_color(member)%></p>
+                <ul>
+                  <% @done[member.id].liaisons.each do |liaison|%>
+                    <li>
+                      <p><a class="Dossier" target="_blank" href="<%= liaison['atlas:url'][0]%>"><%= liaison.text%></a></p>
+                    </li>
+                  <% end %>
+                </ul>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
 
 
 </div>
