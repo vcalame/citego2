@@ -9,26 +9,35 @@ desmoservice_conf = Desmoservice::Conf.new({
   dsmd_script: 'niveau1_par_dimension'
 })
 
+helpers do
+  def h(text)
+    Rack::Utils.escape_html(text)
+  end
+  
+  def text_with_iddesc(descripteur)
+    result = descripteur.iddesc
+    if descripteur.text
+      result += ' – ' + descripteur.text
+    end
+    Rack::Utils.escape_html(result)
+  end
+end
+
+def load_edition_view(request, desmoservice_conf)
+  case request['page']
+  when nil
+    erb(:edition_index, layout: false)
+  when "menu"
+    erb(:edition_menu, locals: {desmoservice_conf: desmoservice_conf})
+  when "accueil"
+    erb(:edition_accueil)
+  end
+end
+
 get '/' do
   "Hello World!"
 end
 
 get '/edition/' do
-  %q{<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-<html lang="fr">
-  <head>
-    <title>Territoires, villes et gouvernance</title>
-  </head>
-  <frameset cols="350,*">
-  <frame name="Liste" src="menu">
-  <frame name="Saisie" src="accueil">
-</frameset>}
-end
-
-get '/edition/accueil' do
-  erb(:edition_accueil)
-end
-
-get '/edition/menu' do
-  erb(:edition_menu, :locals => {desmoservice_conf: desmoservice_conf})
+  load_edition_view(request, desmoservice_conf)
 end

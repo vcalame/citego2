@@ -89,11 +89,17 @@ end
 
 class Descripteur
   
-  attr_reader :code, :iddesc
+  attr_reader :code, :iddesc, :text
   
   def initialize(data)
     @code = data['code']
     @iddesc = data['iddesc']
+    @text = nil
+    if data.has_key?('libelles')
+      if data['libelles'].length > 0
+        @text = data['libelles'][0]['lib']
+      end
+    end
   end
 end
 
