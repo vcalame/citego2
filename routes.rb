@@ -28,6 +28,13 @@ def load_edition_view(request, desmoservice_conf)
     end
     locals[:selection_idctxt] = selection_idctxt
     erb(:edition_liste_niveau1, locals: locals)
+  when 'dossiers'
+    selection_idctxt = 'niveau1@!'
+    if request['grille']
+      selection_idctxt = request['grille'] + '@'
+    end
+    locals[:selection_idctxt] = selection_idctxt
+    erb(:edition_dossiers, locals: locals)
   end
 end
 

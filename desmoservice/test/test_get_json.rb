@@ -1,5 +1,6 @@
 require_relative '../lib/desmoservice/get_json'
 require 'minitest/autorun'
+require 'json'
 
 class TestFamilles < Minitest::Test
   
@@ -25,6 +26,8 @@ class TestFamilles < Minitest::Test
     familles.parse_json(@json)
     assert_equal(1, familles.length)
     assert_equal(9, familles[0].descripteurs.length)
+    assert_equal("Grilles de départ", familles[0].text)
+    assert_equal("Éléments constitutifs des territoires, des villes et de la gouvernance territoriale", familles[0].descripteurs[0].text)
   end
   
   def test2_download
@@ -32,4 +35,19 @@ class TestFamilles < Minitest::Test
     assert_equal(1, familles.length)
     assert_equal(9, familles[0].descripteurs.length)
   end
+end
+
+class TestTerm < Minitest::Test
+  
+  def setup
+    @json = %q@{"iddesc":"E","code":5361,"libelles":[{"lang":"fr","lib":"Domaines de la gouvernance territoriale"}],"attrs":{"atlas:ventilationnaturelle":["ventilation:contexte:complete/E"]}}@
+    
+  end
+  
+  def test_json
+    data = JSON.parse(@json)
+    term = Desmoservice::Terme.new(data)
+    assert_equal("Domaines de la gouvernance territoriale", term.text)
+  end
+  
 end

@@ -42,9 +42,9 @@ class Familles
   end
   
   def parse_json(json_string)
-    @data = JSON.parse(json_string)
-    if @data.has_key?('familles')
-      familles = @data['familles']
+    data = JSON.parse(json_string)
+    if data.has_key?('familles')
+      familles = data['familles']
       if familles.has_key?('familleArray')
         familles['familleArray'].each {|v| @array << Famille.new(v)}
       end
@@ -70,41 +70,69 @@ class Familles
 
 end
 
-class Famille
+class Ventilation
   
-  attr_reader :code, :descripteurs, :children, :text, :idctxt
+  attr_reader :url, :secteurs
   
-  def initialize(data)
-    terme = data['terme']
-    @code = terme['code']
-    @idctxt =terme['idctxt']
-    @children = Array.new
-    @descripteurs = Array.new
-    if data.has_key?('descripteurArray')
-      data['descripteurArray'].each {|v| @descripteurs << Descripteur.new(v)}
-    end
-    if data.has_key?('familleArray')
-      data['familleArray'].each {|v| @children << Famille.new(v)}
-    end
-    @text = nil
-    if terme.has_key?('libelles')
-      if terme['libelles'].length > 0
-        @text = terme['libelles'][0]['lib']
-      end
-    end
+  def initialize(url)
+    @url = url
+    @secteurs = Array.new
   end
   
-  def active?
-    return true
+  def self.download(desmoservice_conf, options = nil)
+    url = build_json_url(desmoservice_conf, options)
+    ventilation = Ventilation.new(url)
+    json_string = open(url).read
+    ventilation.parse_json(json_string)
+    return ventilation
+  end
+  
+  def self.build_json_url(desmoservice_conf, options = nil)
+    default = {
+      type: 'ventilation',
+      fields: 'iddesc,libelles,attrs',
+      root_uri: 'home',
+      root_code: nil,
+      fields_root: nil,
+      fields_liaison: nil,
+      fields_secteur: nil,
+      ignore_empty: nil,
+      famille_filter: nil
+    }
+    if options
+      options.delete('type')
+      options.delete(:type)
+      options = default.merge(options)
+    else
+      options = default
+    end
+    if options[:ignore_empty]
+      options["conf:ignore.empty.secteur"] = "true"
+    elsif options[:ignore_empty].nil?
+      options["conf:ignore.empty.secteur"] = "false"
+    end
+    if options[:famille_filter]
+      options["conf:limitation.familles.idctxtarray"] = options[:famille_filter]
+    end
+    options.delete(:ignore_empty)
+    options.delete(:famille_filter)
+    return desmoservice_conf.build_json_url(options)
+  end
+  
+  def parse_json(json_string)
+    data = JSON.parse(json_string)
+    if data.has_key?('ventilation')
+      ventilation = data['ventilation']
+    end
   end
 end
 
-class Descripteur
-  
-  attr_reader :code, :iddesc, :text, :color
+class Term
+  attr_reader :code, :iddesc, :idctxt, :text, :color
   
   def initialize(data)
     @code = data['code']
+    @idctxt = data['idctxt']
     @iddesc = data['iddesc']
     @text = nil
     if data.has_key?('libelles')
@@ -117,13 +145,43 @@ class Descripteur
       @color = data['familleColor']
     end
   end
+  
+  def iddesc?
+    return !@iddesc.nil?
+  end
+  
+  def idctxt?
+    return !@idctxt.nil?
+  end
+  
+  def text?
+    return !@text.nil?
+  end
+  
+  def color?
+    return !@color.nil?
+  end
 end
 
-
-class Terme
+class Famille < Term
   
-  def self.get_color(terme_data)
+  attr_reader :descripteurs, :children
+  
+  def initialize(data)
+    super(data['terme'])
+    @children = Array.new
+    @descripteurs = Array.new
+    if data.has_key?('descripteurArray')
+      data['descripteurArray'].each {|v| @descripteurs << Term.new(v)}
+    end
+    if data.has_key?('familleArray')
+      data['familleArray'].each {|v| @children << Famille.new(v)}
+    end
     
+  end
+  
+  def active?
+    return true
   end
 end
     

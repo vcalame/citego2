@@ -5,12 +5,12 @@ helpers do
   
   def text_with_id(terme)
     result = ''
-    if terme.respond_to?(:iddesc)
+    if terme.iddesc?
       result = terme.iddesc
-    elsif terme.respond_to?(:idctxt)
+    elsif terme.idctxt?
       result = terme.idctxt
     end
-    if terme.text
+    if terme.text?
       result += ' – ' + terme.text
     end
     return Rack::Utils.escape_html(result)
