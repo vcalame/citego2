@@ -1,6 +1,7 @@
 require 'sinatra'
 require_relative 'desmoservice/lib/desmoservice/conf'
 require_relative 'desmoservice/lib/desmoservice/get_json'
+require_relative 'helpers'
 
 desmoservice_conf = Desmoservice::Conf.new({
   service_url:  'http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice',
@@ -9,37 +10,7 @@ desmoservice_conf = Desmoservice::Conf.new({
   dsmd_script: 'niveau1_par_dimension'
 })
 
-helpers do
-  def h(text)
-    return Rack::Utils.escape_html(text)
-  end
-  
-  def text_with_id(terme)
-    result = ''
-    if terme.respond_to?(:iddesc)
-      result = terme.iddesc
-    elsif terme.respond_to?(:idctxt)
-      result = terme.idctxt
-    end
-    if terme.text
-      result += ' – ' + terme.text
-    end
-    return Rack::Utils.escape_html(result)
-  end
-  
-  def span_color(descripteur)
-    result = ''
-    if descripteur.color
-      result += '<span style="background-color:' + descripteur.color + '">' + descripteur.iddesc + '</span>'
-    else
-      result += descripteur.iddesc
-    end
-    if descripteur.text
-      result += ' – ' + Rack::Utils.escape_html(descripteur.text)
-    end
-    return result
-  end
-end
+
 
 def load_edition_view(request, desmoservice_conf)
   locals = {desmoservice_conf: desmoservice_conf}
