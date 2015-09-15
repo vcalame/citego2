@@ -1,0 +1,17 @@
+<%
+case niveau
+when 'N1'
+  @title = 'Liste permutée des niveaux 1'
+  @family_filter= 'niveau1@'
+when 'N2'
+  @title = 'Liste permutée des niveaux 2'
+  @family_filter= 'niveau2'
+when 'tous'
+  @title = 'Liste permutée des descripteurs'
+  @family_filter= 'niveau1@,niveau2,dossier'
+else
+  @title = 'inconnu'
+end
+@with_form_js=false
+@lexie_distribution = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: @family_filter)
+%>

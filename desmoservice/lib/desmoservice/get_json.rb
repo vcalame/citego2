@@ -181,9 +181,9 @@ class Term
   
   def [](key)
     if @attrs.nil?
-      return "trus"
+      return nil
     elsif !@attrs.has_key?(key)
-      return "muche"
+      return nil
     else
       return @attrs[key]
     end

@@ -1,6 +1,8 @@
-<% @families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color') %>
-<% @title="Liste des niveaux 1" %>
-<% @with_form_js=false %>
+<%
+@families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color')
+@title="Liste des niveaux 1"
+@with_form_js=false
+%>
 
 <div class="row">
 <div class="col-md-12">

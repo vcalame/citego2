@@ -1,11 +1,7 @@
-<% @families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color') %>
-<% @title="Liste des dossiers" %>
-<% @with_form_js=false %>
-
-<div class="row">
-<div class="col-md-12">
-
 <%
+@families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color')
+@title="Liste des dossiers"
+@with_form_js=false
 @ventilation_params = {
   name: 'ventilation:contexte:simple/dossier',
   fields: 'libelles,iddesc,attrs,famille-color,idctxt',
@@ -29,8 +25,11 @@
       end
     end
   end
-end%>
+end
+%>
 
+<div class="row">
+<div class="col-md-12">
 <% @families.each do |family| %>
   <%if @done.has_key?(family.id) %>
     <h2><%= text_with_key(family) %></h2>

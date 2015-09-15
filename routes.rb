@@ -35,6 +35,17 @@ def load_edition_view(request, desmoservice_conf)
     end
     locals[:selection_idctxt] = selection_idctxt
     erb(:edition_dossiers, locals: locals)
+  when 'listepermutee'
+    niveau = request['niveau']
+    case niveau
+    when 'N1'
+    when 'N2'
+    when 'tous'
+    else
+      return 'Niveau inconnu'
+    end
+    locals[:niveau] = niveau
+    er(:edition_listepermutee, locals: locals)
   end
 end
 

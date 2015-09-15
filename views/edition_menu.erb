@@ -1,6 +1,8 @@
-<% @title="Menu" %>
-<% @with_form_js=false %>
-<% @families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: 'grille') %>
+<%
+@title="Menu"
+@with_form_js=false
+@families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: 'grille')
+%>
 
 <div class="small">
   <% @families[0].members.each do |member| %>
