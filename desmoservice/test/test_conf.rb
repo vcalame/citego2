@@ -1,4 +1,4 @@
-require_relative '../lib/desmoservice/conf'
+require_relative '../lib/desmoservice/desmoservice'
 require 'minitest/autorun'
 
 class TestConf < Minitest::Test

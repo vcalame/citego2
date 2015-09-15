@@ -1,6 +1,5 @@
 require 'sinatra'
-require_relative 'desmoservice/lib/desmoservice/conf'
-require_relative 'desmoservice/lib/desmoservice/get_json'
+require_relative 'desmoservice/lib/desmoservice/desmoservice'
 require_relative 'helpers'
 
 desmoservice_conf = Desmoservice::Conf.new({
