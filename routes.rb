@@ -21,18 +21,18 @@ def load_edition_view(request, desmoservice_conf)
   when 'accueil'
     erb(:edition_accueil)
   when 'liste_niveau1'
-    selection_idctxt = 'niveau1@!'
+    family_filter = 'niveau1@!'
     if request['grille']
-      selection_idctxt = request['grille'] + '@'
+      family_filter = request['grille'] + '@'
     end
-    locals[:selection_idctxt] = selection_idctxt
+    locals[:family_filter] = family_filter
     erb(:edition_liste_niveau1, locals: locals)
   when 'dossiers'
-    selection_idctxt = 'niveau1@!'
+    family_filter = 'niveau1@!'
     if request['grille']
-      selection_idctxt = request['grille'] + '@'
+      family_filter = request['grille'] + '@'
     end
-    locals[:selection_idctxt] = selection_idctxt
+    locals[:family_filter] = family_filter
     erb(:edition_dossiers, locals: locals)
   when 'listepermutee'
     niveau = request['niveau']

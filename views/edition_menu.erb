@@ -1,7 +1,9 @@
 <%
 @title="Menu"
 @with_form_js=false
-@families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: 'grille')
+@get_params = Desmoservice::GetParams.new()
+@get_params.family_filter = 'grille'
+@families = Desmoservice::Get.families(desmoservice_conf, @get_params)
 %>
 
 <div class="small">

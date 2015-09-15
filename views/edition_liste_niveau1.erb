@@ -1,7 +1,9 @@
 <%
-@families = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: selection_idctxt, fields: 'idctxt,iddesc,libelles,attrs,famille-color')
 @title="Liste des niveaux 1"
 @with_form_js=false
+@get_params = Desmoservice::GetParams.new()
+@get_params.family_filter = family_filter
+@families = Desmoservice::Get.families(desmoservice_conf, @get_params)
 %>
 
 <div class="row">
