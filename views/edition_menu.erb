@@ -10,9 +10,9 @@
   <% @families[0].members.each do |member| %>
     <h5><%= text_with_key(member) %></h5>
     <ul>
-      <li><a href="?page=liste_niveau1&amp;grille=<%= member.key %>" target="Saisie">Liste des niveaux 1</a></li>
+      <li><a href="?page=liste_niveau1&amp;grille=<%= member.localkey %>" target="Saisie">Liste des niveaux 1</a></li>
       <li><a href="../static/desmoclient/desmoclient.html#<%= member.id %>|ventilation:naturelle" target="Saisie">Desmogramme</a></li>
-      <li><a href="?page=dossiers&amp;grille=<%= member.key %>" target="Saisie">Dossiers Citego</a></li>
+      <li><a href="?page=dossiers&amp;grille=<%= member.localkey %>" target="Saisie">Dossiers Citego</a></li>
     </ul>
   <% end %>
 

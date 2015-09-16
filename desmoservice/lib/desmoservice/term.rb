@@ -1,11 +1,11 @@
 module Desmoservice
 
 class Term
-  attr_reader :id, :key, :text, :color, :attrs
+  attr_reader :id, :localkey, :text, :color, :attrs
   
   def initialize(data)
     @id = data['code']
-    @key = if data.has_key?('iddesc')
+    @localkey = if data.has_key?('iddesc')
              data['iddesc']
            elsif data.has_key?('idctxt')
              data['idctxt']
@@ -28,8 +28,8 @@ class Term
     end
   end
   
-  def key?
-    return !@key.nil?
+  def localkey?
+    return !@localkey.nil?
   end
 
   def text?

@@ -5,8 +5,8 @@ helpers do
   
   def text_with_key(term)
     result = ''
-    if term.key?
-      result += term.key
+    if term.localkey?
+      result += term.localkey
     end
     if term.text?
       result += ' – ' + term.text
@@ -17,9 +17,9 @@ helpers do
   def span_color(term)
     result = ''
     if term.color?
-      result += '<span style="background-color:' + term.color + '">' + term.key + '</span>'
+      result += '<span style="background-color:' + term.color + '">' + term.localkey + '</span>'
     else
-      result += term.key
+      result += term.localkey
     end
     if term.text
       result += ' – <span class="Lib">' + Rack::Utils.escape_html(term.text) + '</span>'

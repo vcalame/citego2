@@ -21,7 +21,7 @@
       @ventilation_get_params.ventilation_root_id = member.id
       ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @ventilation_get_params)
       ventilation.sectors.each do |sector|
-        if sector.key == 'dossier'
+        if sector.localkey == 'dossier'
           @done[@current_family_id] = true
           @done[@current_subfamily_id] = true
           @done[member.id] = sector
