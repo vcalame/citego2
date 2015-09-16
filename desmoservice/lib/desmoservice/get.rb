@@ -21,6 +21,15 @@ class Get
     ventilation.parse_json(json_string)
     return ventilation
   end
+  
+  def self.word_distribution(desmoservice_conf, get_params)
+    options = get_params.to_h('lexiedistribution')
+    url = desmoservice_conf.build_json_url(options)
+    word_distribution = WordDistribution.new(url)
+    json_string = open(url).read
+    word_distribution.parse_json(json_string)
+    return word_distribution
+  end
 end
 
 end

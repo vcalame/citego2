@@ -44,7 +44,7 @@ def load_edition_view(request, desmoservice_conf)
       return 'Niveau inconnu'
     end
     locals[:niveau] = niveau
-    er(:edition_listepermutee, locals: locals)
+    erb(:edition_listepermutee, locals: locals)
   end
 end
 

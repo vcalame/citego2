@@ -27,7 +27,6 @@ class TestFamilies < Minitest::Test
     get_params = Desmoservice::GetParams.new()
     get_params.family_filter = 'grille'
     families = Desmoservice::Get.families(@conf, get_params)
-    puts families.url
     assert_equal(1, families.length)
     assert_equal(9, families[0].members.length)
   end

@@ -13,5 +13,37 @@ else
   @title = 'inconnu'
 end
 @with_form_js=false
-@lexie_distribution = Desmoservice::Families.download(desmoservice_conf, selection_idctxt: @family_filter)
+@get_params = Desmoservice::GetParams.new()
+@get_params.family_filter = @family_filter
+@word_distribution = Desmoservice::Get.word_distribution(desmoservice_conf, @get_params)
 %>
+<div class="row">
+  <div class="col-md-12">
+    <h1><%= @title %></h1>
+  </div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+<dl>
+<% @word_distribution.words.each_value do |word| %>
+  <dt><strong><%= word.value%></strong></dt>
+  <dd>
+    <% word.term_ids.each do |id|
+        term = @word_distribution.tagged_terms[id]
+    %>
+      <p><%= colored_key(term) %> –
+      <% term.tagged_parts.each do |part| %>
+        <% if part.word_id == word.id %>
+          <em><%= part.value %></em>
+        <% else %>
+          <%= part.value %>
+        <% end %>
+      <% end %>
+      </p>
+    <% end %>
+  </dd>
+<% end %>
+</dl>
+</div>
+</div>

@@ -2,7 +2,7 @@ module Desmoservice
 class Families
   include Enumerable
   
-  attr_reader :url, :data, :orphan_members
+  attr_reader :url, :orphan_terms
   
   def initialize(url)
     @url = url
@@ -18,7 +18,7 @@ class Families
         familles['familleArray'].each {|v| @array << Family.new(v)}
       end
       if familles.has_key?('sansfamille')
-        familles['descripteurArray'].each {|v| @orphan_members << Term.new(v)}
+        familles['descripteurArray'].each {|v| @orphan_terms << Term.new(v)}
       end
     end
   end
