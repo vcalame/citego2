@@ -47,9 +47,9 @@ end
               <li>
                 <p><%= span_color(member)%></p>
                 <ul>
-                  <% @done[member.id].liaisons.each do |liaison|%>
+                  <% @done[member.id].members.each do |sector_member|%>
                     <li>
-                      <p><a class="Dossier" target="_blank" href="<%= liaison['atlas:url'][0]%>"><%= liaison.text%></a></p>
+                      <p><a class="Dossier" target="_blank" href="<%= sector_member['atlas:url'][0]%>"><%= sector_member.text%></a></p>
                     </li>
                   <% end %>
                 </ul>

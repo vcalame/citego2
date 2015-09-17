@@ -1,0 +1,47 @@
+<%
+@title="Liste des niveaux 1"
+@with_form_js=true
+@get_params = Desmoservice::GetParams.new()
+@get_params.ventilation_root_id = id
+@get_params.set_ventilation_from_grid('simple')
+@get_params.ignore_empty_sectors = false
+@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+@title = text_with_key(@ventilation.root)
+@categorie = @ventilation.root.localkey[0,1]
+%>
+
+<div class="row">
+  <form action="?page=form_niveau1&amp;id=<%= @ventilation.root.id %>" method="post">
+  <input type="hidden" name="cmd" value="enregistrement-niveau1"/>
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+  <h1><%= span_color(@ventilation.root)%></h1>
+  <div class="col-md-12">
+
+
+<% @ventilation.sectors.each do |sector| %>
+  <div>
+    <h2 class="secteur secteur_niveau_0"><%= text_with_key(sector)%></h2>
+    <ul class="Liste_Descripteurs">
+      <% sector.members.each do |sector_member| %>
+        <li id="descripteur_<%= sector_member.id %>" class="Descripteur">
+          <p id="lib_<%= sector_member.id %>" class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+          <div class="Lien_Modification">[<a href="javascript:modification('<%= sector_member.id %>','')">modifier</a>]</div>
+        </li>
+      <% end %>
+      <li class="Descripteur"><textarea cols="70" rows="3" name="create_<%= sector.id %>_1"></textarea>
+      <br>Niveau 1 détaillé : <input type="text" size="10" name="detail_<%= sector.id %>_1">
+     </li>
+     <li class="Plus" id="Plus_<%= sector.id %>">
+     <div class="Lien_Plus">[<a href="javascript:plus('<%= sector.id %>')">plus</a>]</div>
+     </li>
+    </ul>
+  </div>
+<% end %>
+
+
+  <p class="Submit"><input type="submit" value="Enregistrer"/></p>
+   </div>
+ <div class="col-md-2"><p style="position: fixed"><input type="submit" value="Enregistrer"/></p></div>
+</form>
+</div>

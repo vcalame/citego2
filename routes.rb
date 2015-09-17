@@ -45,6 +45,9 @@ def load_edition_view(request, desmoservice_conf)
     end
     locals[:niveau] = niveau
     erb(:edition_listepermutee, locals: locals)
+  when 'form_niveau1'
+    locals[:id] = request['id']
+    erb(:edition_form_niveau1, locals: locals)
   end
 end
 

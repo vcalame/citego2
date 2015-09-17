@@ -1,7 +1,7 @@
 module Desmoservice
 class Ventilation
   
-  attr_reader :url, :sectors
+  attr_reader :url, :root, :sectors
   
   def initialize(url)
     @url = url
@@ -14,6 +14,9 @@ class Ventilation
       ventilation = data['ventilation']
       if ventilation.has_key?('secteurArray')
         ventilation['secteurArray'].each {|v| @sectors << Sector.new(v)}
+      end
+      if ventilation.has_key?('root')
+        @root  = Term.new(ventilation['root'])
       end
     end
   end
