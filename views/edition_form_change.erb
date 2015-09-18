@@ -1,0 +1,25 @@
+<%
+@title="Modification"
+@with_form_js=false
+
+@get_params = Desmoservice::GetParams.new()
+@get_params.ventilation_root_id = id
+@get_params.ventilation_name_context = 'site/grille'
+@get_params.ignore_empty_sectors = true
+
+@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+@title = text_with_key(@ventilation.root)
+%>
+
+<div class="row">
+<form action="?page=form_change&amp;id=<%= @ventilation.root.id %>" method="post">
+<input type="hidden" name="command" value="term-change">
+<div class="col-md-2"></div>
+  <div class="col-md-8">
+  <h1><%= span_color(@ventilation.root)%></h1>
+  <textarea name="text" cols="60" rows="3"><%= h(@ventilation.root.text) %></textarea>
+  <p class="Submit"><input type="submit" value="Enregistrer"/></p>
+   </div>
+   <div class="col-md-2"><p style="position: fixed"><input type="submit" value="Enregistrer"/></p></div>
+</form>
+</div>
