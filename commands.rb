@@ -32,10 +32,17 @@ class Commands
             link_creation.text('fr', value)
             link_creation.family(664)
           end
+        elsif name.start_with?('update_')
+          term_id = name[7..-1].to_i
+          edition.term_change(term_id) do |term_change|
+            term_change.text('fr', value)
+          end
         end
       end
     end
-    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml)
+    log = ''
+    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+    puts log
   end
   
 end

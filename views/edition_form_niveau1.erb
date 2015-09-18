@@ -12,12 +12,11 @@
 
 <div class="row">
   <form action="?page=form_niveau1&amp;id=<%= @ventilation.root.id %>" method="post">
-  <input type="hidden" name="cmd" value="enregistrement-niveau1"/>
+  <input type="hidden" name="command" value="enregistrement-niveau1"/>
+  <input type="hidden" name="categorie" value="<%= @categorie %>"/>
   <div class="col-md-2"></div>
   <div class="col-md-8">
   <h1><%= span_color(@ventilation.root)%></h1>
-  <div class="col-md-12">
-
 
 <% @ventilation.sectors.each do |sector| %>
   <div>

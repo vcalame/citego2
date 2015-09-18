@@ -29,6 +29,10 @@ module Desmoservice
       return uri
     end
     
+    def build_edition_uri
+      return URI(@service_url + 'edition?desmo=' + @desmo_name)
+    end
+    
     def build_dsmd_url
       dsmd_url = @service_url + "export/" + @desmo_name + "_" + @lang + ".dsmd"
       if @dsmd_script
