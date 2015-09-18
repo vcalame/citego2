@@ -1,10 +1,9 @@
 module Desmoservice
 class WordDistribution
 
-  attr_reader :url, :words, :tagged_terms
+  attr_reader :words, :tagged_terms
   
-  def initialize(url)
-    @url = url
+  def initialize
     @words = Hash.new
     @tagged_terms = Hash.new
   end

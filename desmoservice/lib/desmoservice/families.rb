@@ -2,10 +2,9 @@ module Desmoservice
 class Families
   include Enumerable
   
-  attr_reader :url, :orphan_terms
+  attr_reader :orphan_terms
   
-  def initialize(url)
-    @url = url
+  def initialize()
     @array = Array.new
     @orphan_members = Array.new
   end

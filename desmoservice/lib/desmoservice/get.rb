@@ -4,29 +4,47 @@ class Get
   def initialize
   end
   
-  def self.families(desmoservice_conf, get_params)
+  def self.families(desmoservice_conf, get_params, http=nil)
     options = get_params.to_h('familles')
-    url = desmoservice_conf.build_json_url(options)
-    families = Families.new(url)
-    json_string = open(url).read
+    uri = desmoservice_conf.build_json_uri(options)
+    if http.nil?
+      json_string = Net::HTTP.get(uri)
+    else
+      request = Net::HTTP::Get.new(uri)
+      response = http.request(request)
+      json_string = response.body
+    end
+    families = Families.new()
     families.parse_json(json_string)
     return families
   end
   
-  def self.ventilation(desmoservice_conf, get_params)
+  def self.ventilation(desmoservice_conf, get_params, http=nil)
     options = get_params.to_h('ventilation')
-    url = desmoservice_conf.build_json_url(options)
-    ventilation = Ventilation.new(url)
-    json_string = open(url).read
+    uri = desmoservice_conf.build_json_uri(options)
+    if http.nil?
+      json_string = Net::HTTP.get(uri)
+    else
+      request = Net::HTTP::Get.new(uri)
+      response = http.request(request)
+      json_string = response.body
+    end
+    ventilation = Ventilation.new()
     ventilation.parse_json(json_string)
     return ventilation
   end
   
-  def self.word_distribution(desmoservice_conf, get_params)
+  def self.word_distribution(desmoservice_conf, get_params, http=nil)
     options = get_params.to_h('lexiedistribution')
-    url = desmoservice_conf.build_json_url(options)
-    word_distribution = WordDistribution.new(url)
-    json_string = open(url).read
+    uri = desmoservice_conf.build_json_uri(options)
+    if http.nil?
+      json_string = Net::HTTP.get(uri)
+    else
+      request = Net::HTTP::Get.new(uri)
+      response = http.request(request)
+      json_string = response.body
+    end
+    word_distribution = WordDistribution.new()
     word_distribution.parse_json(json_string)
     return word_distribution
   end

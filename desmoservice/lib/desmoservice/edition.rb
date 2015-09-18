@@ -3,8 +3,13 @@ require 'rack/utils'
 module Desmoservice
 class Edition
   
-  def initialize(xml)
-    @xml = xml
+  def initialize
+    @xml = '<edition>'
+  end
+  
+  def close_to_xml
+    @xml << '</edition>'
+    return @xml
   end
   
   #arg peut être un entier (id) ou une chaine (localkey)

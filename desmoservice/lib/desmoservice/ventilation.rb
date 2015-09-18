@@ -1,10 +1,9 @@
 module Desmoservice
 class Ventilation
   
-  attr_reader :url, :root, :sectors
+  attr_reader :root, :sectors
   
-  def initialize(url)
-    @url = url
+  def initialize
     @sectors = Array.new
   end
   

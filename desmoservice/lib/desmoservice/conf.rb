@@ -18,11 +18,15 @@ module Desmoservice
       @dsmd_script = dsmd_script
     end
     
-    def build_json_url(parameters)
+    def build_json_uri(parameters=nil)
       map = {"desmo" => @desmo_name, "lang" => @lang}
-      map.merge!(parameters)
+      if not parameters.nil?
+        map.merge!(parameters)
+      end
       map.delete_if { |k, v| v.nil? }
-      return @service_url + "json?" + URI.encode_www_form(map)
+      uri = URI(@service_url + 'json')
+      uri.query = URI.encode_www_form(map)
+      return uri
     end
     
     def build_dsmd_url

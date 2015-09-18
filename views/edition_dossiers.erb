@@ -4,28 +4,30 @@
 
 @get_params = Desmoservice::GetParams.new()
 @get_params.family_filter = family_filter
-@families = Desmoservice::Get.families(desmoservice_conf, @get_params)
 
 @ventilation_get_params = Desmoservice::GetParams.new()
 @ventilation_get_params.with_attrs = true
 @ventilation_get_params.ignore_empty_sectors = true
 @ventilation_get_params.set_ventilation_from_grid('simple', 'dossier')
 
-
 @done = Hash.new
-@families.each do |family| 
-  @current_family_id = family.id
-  family.subfamilies.each do |subfamily|
-    @current_subfamily_id = subfamily.id
-    subfamily.members.each do |member|
-      @ventilation_get_params.ventilation_root_id = member.id
-      ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @ventilation_get_params)
-      ventilation.sectors.each do |sector|
-        if sector.localkey == 'dossier'
-          @done[@current_family_id] = true
-          @done[@current_subfamily_id] = true
-          @done[member.id] = sector
-          break
+uri = desmoservice_conf.build_json_uri()
+Net::HTTP.start(uri.host, uri.port) do |http|
+  @families = Desmoservice::Get.families(desmoservice_conf, @get_params, http)
+  @families.each do |family| 
+    @current_family_id = family.id
+    family.subfamilies.each do |subfamily|
+      @current_subfamily_id = subfamily.id
+      subfamily.members.each do |member|
+        @ventilation_get_params.ventilation_root_id = member.id
+        ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @ventilation_get_params, http)
+        ventilation.sectors.each do |sector|
+          if sector.localkey == 'dossier'
+            @done[@current_family_id] = true
+            @done[@current_subfamily_id] = true
+            @done[member.id] = sector
+            break
+          end
         end
       end
     end

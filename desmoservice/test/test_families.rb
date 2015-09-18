@@ -15,7 +15,7 @@ class TestFamilies < Minitest::Test
   end
   
   def test_json
-    families =  Desmoservice::Families.new("")
+    families =  Desmoservice::Families.new()
     families.parse_json(@json)
     assert_equal(1, families.length)
     assert_equal(9, families[0].members.length)
