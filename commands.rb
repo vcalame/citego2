@@ -7,6 +7,8 @@ class Commands
     case request['command']
     when 'enregistrement-niveau1'
       cmd_niveau1(request, desmoservice_conf)
+    when 'term-change'
+      cmd_termchange(request, desmoservice_conf)
     end
   end
   
@@ -43,6 +45,18 @@ class Commands
     log = ''
     Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
     puts log
+  end
+  
+  def self.cmd_termchange(request, desmoservice_conf)
+    root_id = request['id'].to_i
+    text = request['text'].strip
+    if text.length > 0
+      edition = Desmoservice::Edition.new()
+      edition.term_change(root_id) do |term_change|
+        term_change.text('fr', text)
+      end
+      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(''))
+    end
   end
   
 end

@@ -4,8 +4,8 @@ require_relative 'helpers'
 require_relative 'commands'
 
 desmoservice_conf = Desmoservice::Conf.new({
-  #service_url:  'http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice',
-  service_url:  'http://localhost:8080/travail/ext/fr-exemole-desmoservice',
+  service_url:  'http://bases.fichotheque.net:8080/exemole/ext/fr-exemole-desmoservice',
+  #service_url:  'http://localhost:8080/travail/ext/fr-exemole-desmoservice',
   desmo_name: 'citego',
   lang: 'fr',
   dsmd_script: 'niveau1_par_dimension'
@@ -50,6 +50,9 @@ def load_edition_view(request, desmoservice_conf)
   when 'form_niveau1'
     locals[:id] = request['id']
     erb(:edition_form_niveau1, locals: locals)
+  when 'form_change'
+    locals[:id] = request['id']
+    erb(:edition_form_change, locals: locals)
   end
 end
 

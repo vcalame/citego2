@@ -8,7 +8,7 @@
 @ventilation_get_params = Desmoservice::GetParams.new()
 @ventilation_get_params.with_attrs = true
 @ventilation_get_params.ignore_empty_sectors = true
-@ventilation_get_params.set_ventilation_from_grid('simple', 'dossier')
+@ventilation_get_params.ventilation_name_context = 'simple/dossier'
 
 @done = Hash.new
 uri = desmoservice_conf.build_json_uri()

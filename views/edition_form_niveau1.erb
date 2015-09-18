@@ -3,7 +3,7 @@
 @with_form_js=true
 @get_params = Desmoservice::GetParams.new()
 @get_params.ventilation_root_id = id
-@get_params.set_ventilation_from_grid('simple')
+@get_params.ventilation_name_context = 'simple'
 @get_params.ignore_empty_sectors = false
 @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
 @title = text_with_key(@ventilation.root)

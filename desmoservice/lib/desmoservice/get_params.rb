@@ -50,15 +50,16 @@ class GetParams
     return result
   end
   
-  def set_ventilation_from_uri(uri)
+  def ventilation_name_uri=(uri)
     @ventilation_name = 'ventilation:' + uri
   end
   
-  def set_ventilation_from_grid(grid_name, localkey = nil)
-    if localkey.nil?
-      @ventilation_name = 'ventilation:grille:' + grid_name
+  def ventilation_name_context=(localkey)
+    index = localkey.index('/')
+    if index.nil?
+      @ventilation_name = 'ventilation:grille:' + localkey
     else
-      @ventilation_name = 'ventilation:contexte:' + grid_name + '/' + localkey
+      @ventilation_name = 'ventilation:contexte:' + localkey
     end
   end
   
