@@ -6,7 +6,7 @@ class TestFamilies < Minitest::Test
   
   def setup
     @conf = Desmoservice::Conf.new({
-      service_url:  'http://bases.basedefiches.net:8080/exemole/ext/fr-exemole-desmoservice',
+      service_url:  'http://bases.fichotheque.net:8080/exemole/ext/fr-exemole-desmoservice',
       desmo_name: 'citego',
       lang: 'fr',
       dsmd_script: 'niveau1_par_dimension'
