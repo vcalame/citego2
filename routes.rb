@@ -1,5 +1,5 @@
 require 'sinatra'
-require_relative 'desmoservice/lib/desmoservice/desmoservice'
+require 'desmoservice'
 require_relative 'helpers'
 require_relative 'commands'
 
