@@ -26,6 +26,15 @@
         </li>
       <% end %>
     </ul>
+    <p><form action="#" method="POST">
+    <input type="hidden" name="command" value="creation-niveau1">
+    <input type="hidden" name="family" value="<%= subfamily.id %>">
+    <input type="hidden" name="prefix" value="<%= subfamily.localkey %>">
+        Créer un nouveau niveau 1 dans <em><%= subfamily.localkey %></em> :
+         <input type="text" name="text" size="30"/>
+        <input type="submit" value="Créer"/>
+      </p>
+    </form>
   <% end %>
 <% end %>
 

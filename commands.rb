@@ -6,13 +6,20 @@ class Commands
   def self.run(request, desmoservice_conf)
     case request['command']
     when 'enregistrement-niveau1'
-      cmd_niveau1(request, desmoservice_conf)
+      return cmd_niveau1(request, desmoservice_conf)
     when 'term-change'
-      cmd_termchange(request, desmoservice_conf)
+      return cmd_termchange(request, desmoservice_conf)
+    when 'creation-niveau1'
+      return cmd_creation_niveau1(request, desmoservice_conf)
+    when nil
+      return 'commande non définie'
+    else
+      return 'Commande inconnue : ' + request['command']
     end
   end
   
   def self.cmd_niveau1(request, desmoservice_conf)
+    log = ''
     root_id = request['id'].to_i
     categorie = request['categorie']
     edition = Desmoservice::Edition.new()
@@ -23,40 +30,64 @@ class Commands
           request_key = name[7..-1]
           index = request_key.index('_')
           sector_id = request_key[0..index].to_i
-          edition.link_creation do |link_creation|
-            link_creation.up(root_id, sector_id)
+          edition.create_ligature do |ligature_edit|
+            ligature_edit.superior(root_id, sector_id)
             if request.params.has_key?('detail_' + request_key)
               other_up_key = request.params['detail_' + request_key].strip
               if other_up_key.length > 0
-                link_creation.up(other_up_key, 'simple/' + categorie)
+                ligature_edit.superior(other_up_key, 'simple/' + categorie)
               end
             end
-            link_creation.text('fr', value)
-            link_creation.family(664)
+            ligature_edit.text('fr', value)
+            ligature_edit.family(664)
           end
         elsif name.start_with?('update_')
           term_id = name[7..-1].to_i
-          edition.term_change(term_id) do |term_change|
-            term_change.text('fr', value)
+          edition.change_term(term_id) do |term_edit|
+            term_edit.text('fr', value)
           end
         end
       end
     end
-    log = ''
     Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
-    puts log
+    return log
   end
   
   def self.cmd_termchange(request, desmoservice_conf)
+    log = ''
     root_id = request['id'].to_i
     text = request['text'].strip
     if text.length > 0
       edition = Desmoservice::Edition.new()
-      edition.term_change(root_id) do |term_change|
-        term_change.text('fr', text)
+      edition.change_term(root_id) do |term_edit|
+        term_edit.text('fr', text)
       end
-      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(''))
+      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+    else
+      log = 'texte vide'
     end
+    return log
   end
   
+  def self.cmd_creation_niveau1(request, desmoservice_conf)
+    log = ''
+    family = request['family'].to_i
+    prefix = request['prefix']
+    text = request['text'].strip
+    if text.length > 0
+      edition = Desmoservice::Edition.new()
+      edition.create_ligature do |ligature_edit|
+        ligature_edit.superior('titre', 'complete/' + prefix)
+        ligature_edit.superior(prefix[0], 'complete/' + prefix)
+        ligature_edit.text('fr', text)
+        ligature_edit.family(family)
+        ligature_edit.key_prefix(prefix)
+      end
+      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+    else
+      log = 'Texte vide'
+    end
+    return log
+  end
+
 end

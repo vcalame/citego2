@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'desmoservice'
+#require_relative '../../gems/desmoservice/lib/desmoservice'
 require_relative 'helpers'
 require_relative 'commands'
 
@@ -65,6 +66,7 @@ get '/edition/' do
 end
 
 post '/edition/' do
-  Commands.run(request, desmoservice_conf)
+  log = Commands.run(request, desmoservice_conf)
+  puts log
   load_edition_view(request, desmoservice_conf)
 end
