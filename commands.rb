@@ -1,3 +1,5 @@
+require_relative 'commands/transfert_liens'
+
 class Commands
   
   def initialize
@@ -11,6 +13,8 @@ class Commands
       return cmd_termchange(request, desmoservice_conf)
     when 'creation-niveau1'
       return cmd_creation_niveau1(request, desmoservice_conf)
+    when 'transfert-liens'
+      return TransfertLiensCommand.run(request, desmoservice_conf)
     when nil
       return 'commande non définie'
     else

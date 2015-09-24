@@ -119,4 +119,29 @@ a.Dossier {
  color: #CC3300;
  
 }
+
+table.transfert-Table td, th {
+    width: 50%;
+    vertical-align: top;
+}
+
+table.transfert-Table th {
+    padding-bottom: 15px;
+}
+
+h2.transfert-Secteur {
+    padding-bottom: 20px;
+    text-align: center
+}
     
+
+div.transfert-ListeDescripteurs {
+ padding-right: 20px;
+ border-left-width: 1px;
+ border-left-style: solid;
+ padding-left: 5px;
+}
+
+p.Descripteur_Lib label {
+    font-weight: normal;
+}

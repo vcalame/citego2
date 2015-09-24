@@ -1,0 +1,80 @@
+<%
+@title="Transfert de liens"
+
+@get_params = Desmoservice::GetParams.new()
+@get_params.ventilation_root_uri = 'descripteur:' + originkey
+@get_params.ventilation_name_context = 'simple'
+@get_params.ignore_empty_sectors = false
+@ventilation_origin = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+@get_params.ventilation_root_uri = 'descripteur:' + destinationkey
+@ventilation_destination = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+%>
+<% if @ventilation_origin.has_error? %>
+<p style="color:red">Code d'origine inconnu : <%= originkey %></p>
+<% end %>
+<% if @ventilation_destination.has_error? %>
+<p style="color:red">Code de destination inconnu : <%= destinationkey %></p>
+<% end %>
+<% if not @ventilation_origin.has_error? and not @ventilation_destination.has_error? %>
+<form action="" method="post">
+<input type="hidden" name="command" value="transfert-liens">
+<input type="hidden" name="originid" value="<%= @ventilation_origin.root.id %>">
+<input type="hidden" name="destinationid" value="<%= @ventilation_destination.root.id %>">
+<table class="transfert-Table">
+<tr>
+<th>Descripteur d'origine</th>
+<th>Descripteur de destination</th>
+</tr>
+<tr>
+<td><h2><%= span_color(@ventilation_origin.root)%></h2></td>
+<td><h2><%= span_color(@ventilation_destination.root)%></h2></td>
+</tr>
+<% if not log.nil? %>
+  <tr>
+  <td colspan="2"><h2 class="transfert-Secteur" style="color: blue"><%= log %></h2></td>
+  </tr>
+<% end %>
+
+
+<% @ventilation_origin.sectors.each do |sector| %>
+<% destination_sector = @ventilation_destination.get_sector_by_id(sector.id) %>
+  <tr>
+  <td colspan="2"><h2 class="transfert-Secteur"><%= text_with_key(sector)%></h2></td>
+  </tr>
+  <tr>
+  <th>
+  <% if not sector.members.empty? %>
+    Liens transférables
+  <% end %>
+  </th>
+  <th>
+  <% if not destination_sector.nil? and not destination_sector.members.empty? %>
+    Liens déjà présents
+  <% end %>
+  </th>
+  </tr>
+  <tr>
+  <td><div class="transfert-ListeDescripteurs">
+  <% sector.members.each do |sector_member| %>
+      <p class="Descripteur_Lib">
+        <label><input type="checkbox" name="transfert[]" value="<%= sector.id %>/<%= sector_member.id %>">
+        <%= span_color(sector_member)%></label>
+    </p>
+  
+  <% end %>
+  </div></td>
+  <td><div class="transfert-ListeDescripteurs">
+  <% if not destination_sector.nil? 
+    destination_sector.members.each do |sector_member|
+    %>
+     <p class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+  <% end
+    end %>
+  </div></td>
+  </tr>
+<% end %>
+</table>
+<p style="margin-top: 30px;text-align: center"><input type="submit" value="Transférer les liens sélectionnés"></p>
+</form>
+<% end %>
+

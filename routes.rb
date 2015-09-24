@@ -1,12 +1,12 @@
 require 'sinatra'
-require 'desmoservice'
-#require_relative '../../gems/desmoservice/lib/desmoservice'
+#require 'desmoservice'
+require_relative '../../gems/desmoservice/lib/desmoservice'
 require_relative 'helpers'
 require_relative 'commands'
 
 desmoservice_conf = Desmoservice::Conf.new({
-  service_url:  'http://bases.fichotheque.net:8080/exemole/ext/fr-exemole-desmoservice',
-  #service_url:  'http://localhost:8080/travail/ext/fr-exemole-desmoservice',
+  #service_url:  'http://bases.fichotheque.net:8080/exemole/ext/fr-exemole-desmoservice',
+  service_url:  'http://localhost:8080/travail/ext/fr-exemole-desmoservice',
   desmo_name: 'citego',
   lang: 'fr',
   dsmd_script: 'niveau1_par_dimension'
@@ -14,8 +14,8 @@ desmoservice_conf = Desmoservice::Conf.new({
 
 
 
-def load_edition_view(request, desmoservice_conf)
-  locals = {desmoservice_conf: desmoservice_conf}
+def load_edition_view(request, desmoservice_conf, log=nil)
+  locals = {desmoservice_conf: desmoservice_conf, log: log}
   case request['page']
   when nil
     erb(:edition_index, layout: false)
@@ -54,6 +54,12 @@ def load_edition_view(request, desmoservice_conf)
   when 'form_change'
     locals[:id] = request['id']
     erb(:edition_form_change, locals: locals)
+  when 'selection_transfert'
+    erb(:edition_selection_transfert, locals: locals)
+  when 'form_transfert'
+    locals[:originkey] = request['originkey']
+    locals[:destinationkey] = request['destinationkey']
+    erb(:edition_form_transfert, locals: locals)
   end
 end
 
@@ -67,6 +73,5 @@ end
 
 post '/edition/' do
   log = Commands.run(request, desmoservice_conf)
-  puts log
-  load_edition_view(request, desmoservice_conf)
+  load_edition_view(request, desmoservice_conf, log)
 end
