@@ -1,6 +1,6 @@
 require 'sinatra'
-#require 'desmoservice'
-require_relative '../../gems/desmoservice/lib/desmoservice'
+require 'desmoservice'
+#require_relative '../../gems/desmoservice/lib/desmoservice'
 require_relative 'helpers'
 require_relative 'commands'
 

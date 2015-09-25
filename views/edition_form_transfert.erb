@@ -5,6 +5,9 @@
 @get_params.ventilation_root_uri = 'descripteur:' + originkey
 @get_params.ventilation_name_context = 'simple'
 @get_params.ignore_empty_sectors = false
+@get_params.inferiors_only = true
+@get_params.with_keys = true
+@get_params.with_parent = true
 @ventilation_origin = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
 @get_params.ventilation_root_uri = 'descripteur:' + destinationkey
 @ventilation_destination = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
@@ -74,6 +77,10 @@
   </tr>
 <% end %>
 </table>
+<%if @ventilation_destination.root.parent_localkey == 'niveau2' %>
+  <p style="margin-top: 30px;text-align: center"><em>Les liens transférés seront de niveau 3 !</em><p>
+  <input type="hidden" name="newfamily" value="niveau3">
+<% end %>
 <p style="margin-top: 30px;text-align: center"><input type="submit" value="Transférer les liens sélectionnés"></p>
 </form>
 <% end %>
