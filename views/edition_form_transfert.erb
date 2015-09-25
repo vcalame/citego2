@@ -61,7 +61,7 @@
   <% sector.members.each do |sector_member| %>
       <p class="Descripteur_Lib">
         <label><input type="checkbox" name="transfert[]" value="<%= sector.id %>/<%= sector_member.id %>">
-        <%= span_color(sector_member)%></label>
+        <%= span_color(sector_member, with_links: true)%></label>
     </p>
   
   <% end %>
@@ -70,7 +70,7 @@
   <% if not destination_sector.nil? 
     destination_sector.members.each do |sector_member|
     %>
-     <p class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+     <p class="Descripteur_Lib"><%= span_color(sector_member, with_links: true)%></p>
   <% end
     end %>
   </div></td>

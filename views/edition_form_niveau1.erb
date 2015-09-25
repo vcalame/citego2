@@ -1,5 +1,4 @@
 <%
-@title="Liste des niveaux 1"
 @with_form_js=true
 @get_params = Desmoservice::GetParams.new()
 @get_params.ventilation_root_id = id
@@ -24,7 +23,7 @@
     <ul class="Liste_Descripteurs">
       <% sector.members.each do |sector_member| %>
         <li id="descripteur_<%= sector_member.id %>" class="Descripteur">
-          <p id="lib_<%= sector_member.id %>" class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+          <p id="lib_<%= sector_member.id %>" class="Descripteur_Lib"><%= span_color(sector_member, with_links: true)%></p>
           <div class="Lien_Modification">[<a href="javascript:modification('<%= sector_member.id %>','')">modifier</a>]</div>
         </li>
       <% end %>

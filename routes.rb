@@ -60,6 +60,9 @@ def load_edition_view(request, desmoservice_conf, log=nil)
     locals[:originkey] = request['originkey']
     locals[:destinationkey] = request['destinationkey']
     erb(:edition_form_transfert, locals: locals)
+  when 'modal_state'
+    locals[:id] = request['id']
+    erb(:modal_state, locals: locals, layout: false)
   end
 end
 
