@@ -42,6 +42,7 @@ def load_edition_view(request, desmoservice_conf, log=nil)
     case niveau
     when 'N1'
     when 'N2'
+    when 'N3'
     when 'tous'
     else
       return 'Niveau inconnu'
