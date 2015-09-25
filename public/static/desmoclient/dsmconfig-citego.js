@@ -24,13 +24,13 @@ DSM_custom.newLibelleSpan = function(terme, catalogClass) {
   var text = "";
   var lang = "";
   if ((terme.iddesc) && (terme.familleIdctxt)) {
-    if ((terme.familleIdctxt == "grille") || (terme.familleIdctxt.length == 2)) {
+    if (terme.familleIdctxt == "dossier") {
+    	catalogClass = catalogClass + " dsm-link-Url";
+    	custom_type = "classes";
+    } else {
       custom_type = "html";
       text = terme.iddesc + " – " + terme.libelles[0]["lib"];
       lang = terme.libelles[0]["lang"];
-    } else if (terme.familleIdctxt == "dossier") {
-    	catalogClass = catalogClass + " dsm-link-Url";
-    	custom_type = "classes";
     }
   } else if (terme.idctxt) {
   	if (terme.idctxt == "dossier") {
