@@ -5,7 +5,7 @@ require_relative 'helpers'
 require_relative 'commands'
 
 desmoservice_conf = Desmoservice::Conf.new({
-  service_url:  'http://bases.fichotheque.net:8080/exemole/ext/fr-exemole-desmoservice',
+  service_url:  'http://bases.fichotheque.net:8080/citego2/ext/fr-exemole-desmoservice',
   #service_url:  'http://localhost:8080/travail/ext/fr-exemole-desmoservice',
   desmo_name: 'citego',
   lang: 'fr',

@@ -1,5 +1,5 @@
 var DSM_options = {
-serviceUrl: "http://bases.fichotheque.net:8080/exemole/ext/fr-exemole-desmoservice/",
+serviceUrl: "http://bases.fichotheque.net:8080/citego2/ext/fr-exemole-desmoservice/",
 desmoName: "citego",
 homeVentilationName: "ventilation:naturelle",
 homeRootUri: "descripteur:titre",
