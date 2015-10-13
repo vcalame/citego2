@@ -145,3 +145,45 @@ div.transfert-ListeDescripteurs {
 p.Descripteur_Lib label {
     font-weight: normal;
 }
+
+.public-DescripteurBloc {
+ margin-top: 10px;
+ margin-bottom: 5px;
+}
+
+.public-DescripteurBloc span {
+    display: inline-block;
+    padding: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: black;
+}
+
+a.public-DescripteurLink, a.public-DescripteurLink:visited {
+    color: #333;
+}
+
+a > div.public-DescripteurBloc span {
+    border-color: #337AB7;
+}
+
+a:hover > div.public-DescripteurBloc span {
+    border-color: red;
+}
+
+.public-Root {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.public-ListeNiveau2 {
+    font-size: 0.9em;
+    margin-left: 35px;
+    margin-bottom: 20px;
+}
+
+.public-Secteur {
+ margin-top: 35px;
+ margin-bottom: 15px;
+
+}

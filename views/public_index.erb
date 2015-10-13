@@ -1,0 +1,24 @@
+<%
+@with_form_js=true
+@get_params = Desmoservice::GetParams.new()
+@get_params.ventilation_root_uri = 'descripteur:titre'
+@get_params.ventilation_name_context = 'site'
+@get_params.ignore_empty_sectors = false
+@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+@title = @ventilation.root.text
+%>
+
+<div class="row">
+<div class="col-md-12">
+<h2><%= @title %></h2>
+</div>
+<div class="col-md-12">
+<% @ventilation.sectors[0].members.each do |sector_member| %>
+  <% if (sector_member.localkey != 'I') and  (sector_member.localkey != 'H') %>
+    <a  class="public-DescripteurLink" href="?page=niveau0&amp;family=<%= sector_member.localkey %>&amp;target=Niveau2" target="<%= target %>">
+      <%= div_background(sector_member)%>
+    </a>
+  <% end %>
+<% end %>
+</div>
+</div>

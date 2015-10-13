@@ -2,6 +2,7 @@ helpers do
   def h(text)
     return Rack::Utils.escape_html(text)
   end
+
   
   def text_with_key(term)
     result = ''
@@ -41,6 +42,15 @@ helpers do
     result += ' – '
     result += '<a target="_blank" href="../static/desmoclient/desmoclient.html#' + term.id.to_s + '|ventilation:naturelle">desmo</a>'
     result += ']</small>'
+    return result
+  end
+  
+  def div_background(term)
+    result = '<div class="public-DescripteurBloc">'
+    result += '<span style="background-color:' + term.color + '">'
+    result += text_with_key(term)
+    result += '</span>'
+    result += '</div>'
     return result
   end
   

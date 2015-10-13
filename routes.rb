@@ -12,6 +12,29 @@ desmoservice_conf = Desmoservice::Conf.new({
   dsmd_script: 'niveau1_par_dimension'
 })
 
+def load_public_view(request, desmoservice_conf)
+  locals = {desmoservice_conf: desmoservice_conf}
+  case request['page']
+  when nil
+    target = ""
+    if request['target']
+      target = request['target']
+    end
+    locals[:target] = target
+    erb(:public_index, locals: locals)
+  when 'niveau0'
+    target = ""
+    if request['target']
+      target = request['target']
+    end
+    locals[:target] = target
+    locals[:family_filter] = request['family'] + '@'
+    erb(:public_niveau0, locals: locals)
+  when 'niveau1'
+    locals[:id] = request['id']
+    erb(:public_niveau1, locals: locals)
+  end
+end
 
 
 def load_edition_view(request, desmoservice_conf, log=nil)
@@ -68,11 +91,19 @@ def load_edition_view(request, desmoservice_conf, log=nil)
 end
 
 get '/' do
-  "Hello World!"
+  erb(:index, layout: false)
+end
+
+get '/blank' do
+
 end
 
 get '/edition/' do
   load_edition_view(request, desmoservice_conf)
+end
+
+get '/public/' do
+  load_public_view(request, desmoservice_conf)
 end
 
 post '/edition/' do

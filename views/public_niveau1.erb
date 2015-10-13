@@ -1,0 +1,63 @@
+<%
+@with_form_js=false
+@get_params = Desmoservice::GetParams.new()
+@get_params.ventilation_root_id = id
+@get_params.ventilation_name_context = 'simple'
+@get_params.ignore_empty_sectors = true
+@get_params.family_filter = 'niveau2'
+@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+@title = text_with_key(@ventilation.root)
+@categorie = @ventilation.root.localkey[0,1]
+@get_params2 = Desmoservice::GetParams.new()
+@get_params2.ignore_empty_sectors = true
+@get_params2.ventilation_name_context = 'simple'
+@inferiorsMap = Hash.new
+@superiorsMap = Hash.new
+uri = desmoservice_conf.build_json_uri()
+Net::HTTP.start(uri.host, uri.port) do |http|
+  @ventilation.sectors.each do |sector|
+    sector.members.each do |sector_member|
+      @get_params2.ventilation_root_id = sector_member.id
+      inferiors = Array.new
+      superiors = Array.new
+      ventilation2 = Desmoservice::Get.ventilation(desmoservice_conf, @get_params2)
+      ventilation2.sectors.each do |sector|
+        sector.members.each do |sector_member|
+          case sector_member.position
+          when 1
+            inferiors << sector_member
+          when 3
+            superiors << sector_member
+          end
+        end
+      end
+      @inferiorsMap[sector_member.id] = inferiors
+      @superiorsMap[sector_member.id] = superiors
+    end
+  end
+end
+
+%>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="public-Root">
+      <%= div_background(@ventilation.root)%>
+    </div>
+
+<% @ventilation.sectors.each do |sector| %>
+  <div>
+    <h3 class="public-Secteur"><%= text_with_key(sector)%></h3>
+      <% sector.members.each do |sector_member| %>
+          <%= div_background(sector_member)%>
+          <div class="public-ListeNiveau2">
+            <% @inferiorsMap[sector_member.id].each do |inferior| %>
+              <%= div_background(inferior)%>
+            <% end %>
+          </div>
+      <% end %>
+  </div>
+<% end %>
+
+   </div>
+ </div>

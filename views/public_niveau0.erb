@@ -1,0 +1,29 @@
+<%
+@with_form_js=false
+@get_params = Desmoservice::GetParams.new()
+@get_params.family_filter = family_filter
+@families = Desmoservice::Get.families(desmoservice_conf, @get_params)
+@family = @families[0];
+@title = text_with_key(@families[0])
+%>
+
+<div class="row">
+<div class="col-md-12">
+<div class="public-Root">
+<div class="public-DescripteurBloc">
+<span style="background-color:#ffcccc"><%= text_with_key(@family) %></span>
+</div>
+</div>
+
+<% @family.subfamilies.each do |subfamily| %>
+  <h3 class="public-Secteur"><%= text_with_key(subfamily) %></h3>
+    <% subfamily.members.each do |member| %>
+    <a class="public-DescripteurLink" href="?page=niveau1&amp;id=<%= member.id%>" target="<%= target %>">
+      <%= div_background(member)%>
+    </a>
+    <% end %>
+<% end %>
+
+
+</div>
+</div>
