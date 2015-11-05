@@ -33,6 +33,12 @@ def load_public_view(request, desmoservice_conf)
   when 'niveau1'
     locals[:id] = request['id']
     erb(:public_niveau1, locals: locals)
+  when 'recherche'
+    locals[:query] = request['q']
+    erb(:public_recherche, locals: locals)
+  when 'modal'
+    locals[:id] = request['id']
+    erb(:public_modal, locals: locals, layout: false)
   end
 end
 
