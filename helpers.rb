@@ -25,22 +25,26 @@ helpers do
     return result
   end
   
-  def span_color(term, with_links: false)
+  def span_color(term, with_links: false, with_removelink: false)
     result = colored_key(term)
     if term.text
       result += ' – <span class="Lib">' + Rack::Utils.escape_html(term.text) + '</span>'
     end
     if with_links
-      result += term_links(term)
+      result += term_links(term, with_removelink: with_removelink)
     end
     return result
   end
   
-  def term_links(term)
+  def term_links(term, with_removelink: false)
     result = ' <small>['
     result += '<a data-link-type="modal" href="?page=modal_state&amp;id=' + term.id.to_s + '">info</a>'
     result += ' – '
     result += '<a target="_blank" href="../static/desmoclient/desmoclient.html#' + term.id.to_s + '|ventilation:naturelle">desmo</a>'
+    if with_removelink
+      result += ' – '
+      result += '<a data-link-type="modal" href="?page=modal_remove&amp;id=' + term.id.to_s + '">supprimer</a>'
+    end
     result += ']</small>'
     return result
   end

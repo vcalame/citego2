@@ -1,0 +1,62 @@
+<%
+@get_params = Desmoservice::GetParams.new()
+@get_params.ventilation_root_id = id
+@get_params.ventilation_name_context = 'simple'
+@get_params.ignore_empty_sectors = true
+@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+@title = text_with_key(@ventilation.root)
+superiors = Hash.new
+inferiors = Hash.new
+@ventilation.sectors.each do |sector|
+  sector.members.each do |sector_member|
+    case sector_member.position
+    when 1
+      inferiors[sector_member.id] = sector_member
+    when 3
+      superiors[sector_member.id] = sector_member
+    end
+  end
+end
+%>
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span arial-hidden="true">&times;</span></button>
+  <h4 class="modal-title"><%= span_color(@ventilation.root)%></h4>
+</div>
+<div class="modal-body">
+<% if not superiors.empty? %>
+  <p>Niveaux supérieurs :</p>
+  <ul>
+  <% superiors.each_value do |sector_member| %>
+    <li class="Descripteur">
+      <p class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+
+<% if not inferiors.empty? %>
+  <p>Niveaux inférieurs :</p>
+  <ul>
+  <% inferiors.each_value do |sector_member| %>
+    <li class="Descripteur">
+      <p class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+    </li>
+  <% end %>
+  </ul>
+<% end %>
+<form data-role="term-remove" action="?page=descripteurs" method="post">
+<input type="hidden" name="command" value="term-remove">
+<input type="hidden" name="id" value="<%= id %>">
+<input type="submit" value="Supprimer le descripteur">
+</form>
+
+</div>
+<!--<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+</div>-->
+</body>
+</html>

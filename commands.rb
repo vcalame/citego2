@@ -15,6 +15,8 @@ class Commands
       return cmd_creation_niveau1(request, desmoservice_conf)
     when 'transfert-liens'
       return TransfertLiensCommand.run(request, desmoservice_conf)
+    when 'term-remove'
+      return cmd_termremove(request, desmoservice_conf)
     when nil
       return 'commande non définie'
     else
@@ -91,6 +93,15 @@ class Commands
     else
       log = 'Texte vide'
     end
+    return log
+  end
+  
+  def self.cmd_termremove(request, desmoservice_conf)
+    log = ''
+    root_id = request['id'].to_i
+    edition = Desmoservice::Edition.new()
+    edition.remove_term(root_id)
+    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
     return log
   end
 

@@ -1,0 +1,22 @@
+<%
+@title = "Liste des descripteurs"
+@get_params = Desmoservice::GetParams.new()
+@get_params.with_keys = true
+@get_params.with_parent = true
+@terms = Desmoservice::Get.terms(desmoservice_conf, @get_params)
+%>
+<div class="row">
+  <div class="col-md-12">
+    <h1><%= @title %></h1>
+  </div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+<% @terms.each do |term| %>
+<p id="descripteur_<%= term.id %>"><%= span_color(term, with_links: true, with_removelink: true)%></p>
+
+<% end %>
+
+</div>
+</div>
