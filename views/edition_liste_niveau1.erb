@@ -17,12 +17,10 @@
       <% subfamily.members.each do |member| %>
         <li>
           <p>
-            <%= span_color(member)%>
-            <small>(
-              <a href="?page=form_niveau1&amp;id=<%= member.id%>">Regroupement Niveaux 2</a>
-              - <a href="?page=form_change&amp;id=<%= member.id%>">Modifier</a>
-            )</small>
-          </p>
+            <%= span_color(member, with_links: true)%>
+            <br>[<a href="?page=form_niveau1&amp;id=<%= member.id%>">Regroupement Niveaux 2</a>
+              - <a href="?page=form_change&amp;id=<%= member.id%>">Modifier</a>]
+            </p>
         </li>
       <% end %>
     </ul>
