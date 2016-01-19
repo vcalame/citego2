@@ -25,7 +25,10 @@ Modal.load = function (href) {
                     }
                 });
             }
-            
+        });
+        $commonModal.find("[data-link-type='modal']").click(function () {
+            Modal.load(this.href);
+            return false;
         });
         $commonModal.modal('show');
     });

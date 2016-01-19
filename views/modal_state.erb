@@ -32,7 +32,7 @@ end
   <ul>
   <% superiors.each_value do |sector_member| %>
     <li class="Descripteur">
-      <p class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+      <p class="Descripteur_Lib"><a data-link-type="modal" href="?page=modal_state&amp;id=<%= sector_member.id.to_s %>"><%= span_color(sector_member)%></a></p>
     </li>
   <% end %>
   </ul>
@@ -43,14 +43,11 @@ end
   <ul>
   <% inferiors.each_value do |sector_member| %>
     <li class="Descripteur">
-      <p class="Descripteur_Lib"><%= span_color(sector_member)%></p>
+      <p class="Descripteur_Lib"><a data-link-type="modal" href="?page=modal_state&amp;id=<%= sector_member.id.to_s %>"><%= span_color(sector_member)%></a></p>
     </li>
   <% end %>
   </ul>
 <% end %>
 </div>
-<!--<div class="modal-footer">
-<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-</div>-->
 </body>
 </html>
