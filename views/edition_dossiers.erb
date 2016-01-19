@@ -3,7 +3,9 @@
 @with_form_js=false
 
 @get_params = Desmoservice::GetParams.new()
-@get_params.family_filter = family_filter
+@get_params.ventilation_root_id = id
+@get_params.ignore_empty_sectors = false
+@get_params.ventilation_name_context = 'colonnesmatrice'
 
 @ventilation_get_params = Desmoservice::GetParams.new()
 @ventilation_get_params.with_attrs = true
@@ -13,21 +15,17 @@
 @done = Hash.new
 uri = desmoservice_conf.build_json_uri()
 Net::HTTP.start(uri.host, uri.port) do |http|
-  @families = Desmoservice::Get.families(desmoservice_conf, @get_params, http)
-  @families.each do |family| 
-    @current_family_id = family.id
-    family.subfamilies.each do |subfamily|
-      @current_subfamily_id = subfamily.id
-      subfamily.members.each do |member|
-        @ventilation_get_params.ventilation_root_id = member.id
-        ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @ventilation_get_params, http)
-        ventilation.sectors.each do |sector|
-          if sector.localkey == 'dossier'
-            @done[@current_family_id] = true
-            @done[@current_subfamily_id] = true
-            @done[member.id] = sector
-            break
-          end
+  @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params, http)
+  @ventilation.sectors.each do |sector| 
+    @current_sector_id = sector.id
+    sector.members.each do |member|
+      @ventilation_get_params.ventilation_root_id = member.id
+      ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @ventilation_get_params, http)
+      ventilation.sectors.each do |sector|
+        if sector.localkey == 'dossier'
+          @done[@current_sector_id] = true
+          @done[member.id] = sector
+          break
         end
       end
     end
@@ -37,30 +35,26 @@ end
 
 <div class="row">
 <div class="col-md-12">
-<% @families.each do |family| %>
-  <%if @done.has_key?(family.id) %>
-    <h2><%= text_with_key(family) %></h2>
-    <% family.subfamilies.each do |subfamily|%>
-      <% if @done.has_key?(subfamily.id) %>
-        <h3><%= text_with_key(subfamily) %></h3>
-        <ul class="ListeDescripteursPrincipaux">
-          <% subfamily.members.each do |member|%>
-            <% if @done.has_key?(member.id) %>
-              <li>
-                <p><%= span_color(member)%></p>
-                <ul>
-                  <% @done[member.id].members.each do |sector_member|%>
-                    <li>
-                      <p><a class="Dossier" target="_blank" href="<%= sector_member['atlas:url'][0]%>"><%= sector_member.text%></a></p>
-                    </li>
-                  <% end %>
-                </ul>
-              </li>
-            <% end %>
-          <% end %>
-        </ul>
+<h2><%= span_color(@ventilation.root)%></h2>
+<% @ventilation.sectors.each do |sector| %>
+  <%if @done.has_key?(sector.id) %>
+    <h3><%= text_with_key(sector) %></h3>
+    <ul class="ListeDescripteursPrincipaux">
+      <% sector.members.each do |member|%>
+        <% if @done.has_key?(member.id) %>
+          <li>
+            <p><%= span_color(member)%></p>
+            <ul>
+              <% @done[member.id].members.each do |sector_member|%>
+                <li>
+                  <p><a class="Dossier" target="_blank" href="<%= sector_member['atlas:url'][0]%>"><%= sector_member.text%></a></p>
+                </li>
+              <% end %>
+            </ul>
+          </li>
+        <% end %>
       <% end %>
-    <% end %>
+    </ul>
   <% end %>
 <% end %>
 
