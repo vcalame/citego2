@@ -1,0 +1,51 @@
+<%
+@get_params = Desmoservice::GetParams.new()
+@get_params.with_keys = true
+@get_params.with_parent = true
+@get_params.query = query
+@terms = Desmoservice::Get.terms(desmoservice_conf, @get_params)
+@niveau1 = Array.new()
+@niveau2 = Array.new()
+@niveau3 = Array.new()
+
+@terms.each do |term|
+  if term.parent_localkey.length == 2
+    @niveau1 << term
+  end
+  case term.parent_localkey
+  when 'niveau2'
+    @niveau2 << term
+  when 'niveau3'
+    @niveau3 << term
+  end
+
+end
+
+%>
+
+
+<div class="row">
+<div class="col-md-12">
+<% if @terms.length == 0 %>
+<p><em>Aucun résultat pour la recherche : <%= query %></em></p>
+<% end %>
+<% if @niveau1.length > 0 %>
+  <h3 class="public-Secteur">Niveaux 1</h3>
+  <% @niveau1.each do |term| %>
+    <p id="descripteur_<%= term.id %>"><%= span_color(term, with_links: true, with_removelink: false)%></p>
+  <% end %>
+<% end %>
+<% if @niveau2.length > 0 %>
+  <h3 class="public-Secteur">Niveaux 2</h3>
+  <% @niveau2.each do |term| %>
+    <p id="descripteur_<%= term.id %>"><%= span_color(term, with_links: true, with_removelink: false)%></p>
+  <% end %>
+<% end %>
+<% if @niveau3.length > 0 %>
+  <h3 class="public-Secteur">Niveaux 3</h3>
+  <% @niveau3.each do |term| %>
+    <p id="descripteur_<%= term.id %>"><%= span_color(term, with_links: true, with_removelink: false)%></p>
+  <% end %>
+<% end %>
+</div>
+</div>

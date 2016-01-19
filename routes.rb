@@ -98,6 +98,9 @@ def load_edition_view(request, desmoservice_conf, log=nil)
   when 'modal_remove'
     locals[:id] = request['id']
     erb(:modal_remove, locals: locals, layout: false)
+  when 'recherche'
+    locals[:query] = request['q']
+    erb(:edition_recherche, locals: locals)
   end
 end
 

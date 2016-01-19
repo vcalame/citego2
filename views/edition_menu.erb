@@ -7,6 +7,16 @@
 %>
 
 <div class="small">
+
+<form action="" target="Saisie">
+<input type="hidden" name="page" value="recherche">
+<p>Recherche libre :<br>
+<input type="text" size="20" name="q"><br>
+<input type="submit" value="Rechercher">
+</p>
+</form>
+
+
 <p><a href="?page=selection_transfert" target="Saisie">Transfert de liens</a></p>
   <% @families[0].members.each do |member| %>
     <h5><%= text_with_key(member) %></h5>
