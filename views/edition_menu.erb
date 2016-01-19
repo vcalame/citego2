@@ -19,9 +19,9 @@
 
 <p><a href="?page=selection_transfert" target="Saisie">Transfert de liens</a></p>
   <% @families[0].members.each do |member| %>
-    <h5><%= text_with_key(member) %></h5>
+    <h5><%= span_color(member)%></h5>
     <ul>
-      <li><a href="?page=liste_niveau1&amp;grille=<%= member.localkey %>" target="Saisie">Liste des niveaux 1</a></li>
+      <li><a href="?page=liste_niveau1&amp;lignematrice=<%= member.id %>" target="Saisie">Liste des niveaux 1</a></li>
       <li><a href="../static/desmoclient/desmoclient.html#<%= member.id %>|ventilation:naturelle" target="Saisie">Desmogramme</a></li>
       <li><a href="?page=dossiers&amp;grille=<%= member.localkey %>" target="Saisie">Dossiers Citego</a></li>
     </ul>

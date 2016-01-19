@@ -2,38 +2,38 @@
 @title="Liste des niveaux 1"
 @with_form_js=false
 @get_params = Desmoservice::GetParams.new()
-@get_params.family_filter = family_filter
-@families = Desmoservice::Get.families(desmoservice_conf, @get_params)
+@get_params.ventilation_root_id = id
+@get_params.ignore_empty_sectors = false
+@get_params.ventilation_name_context = 'colonnesmatrice'
+@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
 %>
 
 <div class="row">
 <div class="col-md-12">
 
-<% @families.each do |family| %>
-  <h2><%= text_with_key(family) %></h2>
-  <% family.subfamilies.each do |subfamily| %>
-    <h3><%= text_with_key(subfamily) %></h3>
-    <ul class="ListeDescripteursPrincipaux">
-      <% subfamily.members.each do |member| %>
-        <li>
-          <p>
-            <%= span_color(member, with_links: true)%>
-            <br>[<a href="?page=form_niveau1&amp;id=<%= member.id%>">Regroupement Niveaux 2</a>
-              - <a href="?page=form_change&amp;id=<%= member.id%>">Modifier</a>]
-            </p>
-        </li>
-      <% end %>
-    </ul>
-    <p><form action="#" method="POST">
-    <input type="hidden" name="command" value="creation-niveau1">
-    <input type="hidden" name="family" value="<%= subfamily.id %>">
-    <input type="hidden" name="prefix" value="<%= subfamily.localkey %>">
-        Créer un nouveau niveau 1 dans <em><%= subfamily.localkey %></em> :
-         <input type="text" name="text" size="30"/>
-        <input type="submit" value="Créer"/>
-      </p>
-    </form>
+<h2><%= span_color(@ventilation.root)%></h2>
+<% @ventilation.sectors.each do |sector| %>
+  <h3><%= text_with_key(sector) %></h3>
+  <ul class="ListeDescripteursPrincipaux">
+  <% sector.members.each do |sector_member| %>
+      <li>
+        <p>
+          <%= span_color(sector_member, with_links: true)%>
+          <br>[<a href="?page=form_niveau1&amp;id=<%= sector_member.id%>">Regroupement Niveaux 2</a>
+            - <a href="?page=form_change&amp;id=<%= sector_member.id%>">Modifier</a>]
+          </p>
+      </li>
   <% end %>
+  </ul>
+  <p><form action="#" method="POST">
+  <input type="hidden" name="command" value="creation-niveau1">
+  <input type="hidden" name="family" value="<%= sector.id %>">
+  <input type="hidden" name="prefix" value="<%= sector.localkey %>">
+      Créer un nouveau niveau 1 dans <em><%= sector.localkey %></em> :
+      <input type="text" name="text" size="30"/>
+      <input type="submit" value="Créer"/>
+    </p>
+  </form>
 <% end %>
 
 </div>

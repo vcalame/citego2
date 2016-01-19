@@ -53,11 +53,7 @@ def load_edition_view(request, desmoservice_conf, log=nil)
   when 'accueil'
     erb(:edition_accueil)
   when 'liste_niveau1'
-    family_filter = 'niveau1@!'
-    if request['grille']
-      family_filter = request['grille'] + '@'
-    end
-    locals[:family_filter] = family_filter
+    locals[:id] = request['lignematrice']
     erb(:edition_liste_niveau1, locals: locals)
   when 'dossiers'
     family_filter = 'niveau1@!'
