@@ -28,7 +28,7 @@ def load_public_view(request, desmoservice_conf)
       target = request['target']
     end
     locals[:target] = target
-    locals[:family_filter] = request['family'] + '@'
+    locals[:id] = request['id']
     erb(:public_niveau0, locals: locals)
   when 'niveau1'
     locals[:id] = request['id']

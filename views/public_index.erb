@@ -14,11 +14,9 @@
 </div>
 <div class="col-md-12">
 <% @ventilation.sectors[0].members.each do |sector_member| %>
-  <% if (sector_member.localkey != 'I') and  (sector_member.localkey != 'H') %>
-    <a  class="public-DescripteurLink" href="?page=niveau0&amp;family=<%= sector_member.localkey %>&amp;target=Niveau2" target="<%= target %>">
-      <%= div_background(sector_member)%>
-    </a>
-  <% end %>
+  <a  class="public-DescripteurLink" href="?page=niveau0&amp;id=<%= sector_member.id %>&amp;target=Niveau2" target="<%= target %>">
+    <%= div_background(sector_member)%>
+  </a>
 <% end %>
 </div>
 </div>
