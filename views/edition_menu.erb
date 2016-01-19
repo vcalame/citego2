@@ -2,7 +2,7 @@
 @title="Menu"
 @with_form_js=false
 @get_params = Desmoservice::GetParams.new()
-@get_params.family_filter = 'grille'
+@get_params.family_filter = 'lignesmatrice'
 @families = Desmoservice::Get.families(desmoservice_conf, @get_params)
 %>
 
