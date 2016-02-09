@@ -15,12 +15,12 @@
 @done = Hash.new
 uri = desmoservice_conf.build_json_uri()
 Net::HTTP.start(uri.host, uri.port) do |http|
-  @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params, http)
+  @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params, http: http)
   @ventilation.sectors.each do |sector| 
     @current_sector_id = sector.id
     sector.members.each do |member|
       @ventilation_get_params.ventilation_root_id = member.id
-      ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @ventilation_get_params, http)
+      ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @ventilation_get_params, http: http)
       ventilation.sectors.each do |sector|
         if sector.localkey == 'dossier'
           @done[@current_sector_id] = true

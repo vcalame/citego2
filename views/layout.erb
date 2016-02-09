@@ -25,5 +25,8 @@
     </div>
   </div>
 </div>
+<% if not debug_log_handler.nil? %>
+  <pre><%= debug_log_handler.destination %></pre>
+<% end %>
 </body>
 </html>

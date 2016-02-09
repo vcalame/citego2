@@ -5,7 +5,7 @@
 @get_params.ventilation_root_id = id
 @get_params.ignore_empty_sectors = false
 @get_params.ventilation_name_context = 'colonnesmatrice'
-@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
+@ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params, log_handler: debug_log_handler)
 %>
 
 <div class="row">
@@ -25,15 +25,15 @@
       </li>
   <% end %>
   </ul>
-  <!--<p><form action="#" method="POST">
+  <form action="#" method="POST"><p>
   <input type="hidden" name="command" value="creation-niveau1">
-  <input type="hidden" name="family" value="<%= sector.id %>">
-  <input type="hidden" name="prefix" value="<%= sector.localkey %>">
-      Créer un nouveau niveau 1 dans <em><%= sector.localkey %></em> :
+  <input type="hidden" name="superior" value="<%= @ventilation.root.localkey %>">
+  <input type="hidden" name="sector" value="colonnesmatrice/<%= sector.localkey %>">
+  <input type="hidden" name="prefix" value="<%= @ventilation.root.localkey %><%= sector.localkey %>.">
+      Créer un nouveau niveau 1 dans <em><%= @ventilation.root.localkey %><%= sector.localkey %></em> :
       <input type="text" name="text" size="30"/>
       <input type="submit" value="Créer"/>
-    </p>
-  </form>-->
+    </p></form>
 <% end %>
 
 </div>

@@ -6,14 +6,20 @@ require_relative 'commands'
 
 desmoservice_conf = Desmoservice::Conf.new({
   service_url:  'http://bases.fichotheque.net:8080/citego/travail/ext/fr-exemole-desmoservice',
-  #service_url:  'http://localhost:8080/travail/ext/fr-exemole-desmoservice',
+  #service_url:  'http://localhost:8080/multi/travail/ext/fr-exemole-desmoservice',
   desmo_name: 'citego',
   lang: 'fr',
   dsmd_script: 'niveau1_par_dimension'
 })
+  
+debug=false
 
-def load_public_view(request, desmoservice_conf)
-  locals = {desmoservice_conf: desmoservice_conf}
+def load_public_view(request, desmoservice_conf, debug: false)
+  debug_log_handler = nil
+  if debug
+    debug_log_handler = Desmoservice::LogHandler.new('')
+  end
+  locals = {desmoservice_conf: desmoservice_conf,  debug_log_handler: debug_log_handler}
   case request['page']
   when nil
     target = ""
@@ -43,15 +49,19 @@ def load_public_view(request, desmoservice_conf)
 end
 
 
-def load_edition_view(request, desmoservice_conf, log=nil)
-  locals = {desmoservice_conf: desmoservice_conf, log: log}
+def load_edition_view(request, desmoservice_conf, command_log=nil, debug: false)
+  debug_log_handler = nil
+  if debug
+    debug_log_handler = Desmoservice::LogHandler.new('')
+  end
+  locals = {desmoservice_conf: desmoservice_conf, command_log: command_log, debug_log_handler: debug_log_handler}
   case request['page']
   when nil
     erb(:edition_index, layout: false)
   when 'menu'
     erb(:edition_menu, locals: locals)
   when 'accueil'
-    erb(:edition_accueil)
+    erb(:edition_accueil, locals: locals)
   when 'liste_niveau1'
     locals[:id] = request['lignematrice']
     erb(:edition_liste_niveau1, locals: locals)
@@ -105,14 +115,14 @@ get '/blank' do
 end
 
 get '/edition/' do
-  load_edition_view(request, desmoservice_conf)
+  load_edition_view(request, desmoservice_conf, debug: debug)
 end
 
 get '/public/' do
-  load_public_view(request, desmoservice_conf)
+  load_public_view(request, desmoservice_conf, debug: debug)
 end
 
 post '/edition/' do
   log = Commands.run(request, desmoservice_conf)
-  load_edition_view(request, desmoservice_conf, log)
+  load_edition_view(request, desmoservice_conf, log, debug: debug)
 end

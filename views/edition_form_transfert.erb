@@ -32,9 +32,9 @@
 <td><h2><%= span_color(@ventilation_origin.root)%></h2></td>
 <td><h2><%= span_color(@ventilation_destination.root)%></h2></td>
 </tr>
-<% if not log.nil? %>
+<% if not command_log.nil? %>
   <tr>
-  <td colspan="2"><h2 class="transfert-Secteur" style="color: blue"><%= log %></h2></td>
+  <td colspan="2"><h2 class="transfert-Secteur" style="color: blue"><%= command_log %></h2></td>
   </tr>
 <% end %>
 

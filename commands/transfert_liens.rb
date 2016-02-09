@@ -25,7 +25,7 @@ class TransfertLiensCommand
         end
       end
     end
-    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, log_handler: Desmoservice::LogHandler.new(log))
     return log
   end
   

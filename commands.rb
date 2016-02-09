@@ -55,7 +55,7 @@ class Commands
         end
       end
     end
-    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, log_handler: Desmoservice::LogHandler.new(log))
     return log
   end
   
@@ -68,7 +68,7 @@ class Commands
       edition.change_term(root_id) do |term_edit|
         term_edit.text('fr', text)
       end
-      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, log_handler: Desmoservice::LogHandler.new(log))
     else
       log = 'texte vide'
     end
@@ -77,19 +77,19 @@ class Commands
   
   def self.cmd_creation_niveau1(request, desmoservice_conf)
     log = ''
-    family = request['family'].to_i
+    superior = request['superior']
+    sector = request['sector']
     prefix = request['prefix']
     text = request['text'].strip
     if text.length > 0
       edition = Desmoservice::Edition.new()
       edition.create_ligature do |ligature_edit|
-        ligature_edit.superior('titre', 'complete/' + prefix)
-        ligature_edit.superior(prefix[0], 'complete/' + prefix)
+        ligature_edit.superior(superior, sector)
         ligature_edit.text('fr', text)
-        ligature_edit.family(family)
+        ligature_edit.family(34)
         ligature_edit.key_prefix(prefix)
       end
-      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+      Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, log_handler: Desmoservice::LogHandler.new(log))
     else
       log = 'Texte vide'
     end
@@ -101,7 +101,7 @@ class Commands
     root_id = request['id'].to_i
     edition = Desmoservice::Edition.new()
     edition.remove_term(root_id)
-    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, Desmoservice::LogHandler.new(log))
+    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, log_handler: Desmoservice::LogHandler.new(log))
     return log
   end
 
