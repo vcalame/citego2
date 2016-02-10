@@ -2,7 +2,7 @@
 @with_form_js=false
 @get_params = Desmoservice::GetParams.new()
 @get_params.ventilation_root_id = id
-@get_params.ventilation_name_context = 'simple'
+@get_params.ventilation_name_context = 'lignesmatrice'
 @get_params.ignore_empty_sectors = true
 @get_params.family_filter = 'niveau2'
 @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params)
@@ -10,7 +10,7 @@
 @categorie = @ventilation.root.localkey[0,1]
 @get_params2 = Desmoservice::GetParams.new()
 @get_params2.ignore_empty_sectors = true
-@get_params2.ventilation_name_context = 'simple'
+@get_params2.ventilation_name_context = 'lignesmatrice'
 @inferiorsMap = Hash.new
 @superiorsMap = Hash.new
 uri = desmoservice_conf.build_json_uri()

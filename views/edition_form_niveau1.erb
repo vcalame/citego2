@@ -2,7 +2,7 @@
 @with_form_js=true
 @get_params = Desmoservice::GetParams.new()
 @get_params.ventilation_root_id = id
-@get_params.ventilation_name_context = 'simple'
+@get_params.ventilation_name_context = 'lignesmatrice'
 @get_params.ignore_empty_sectors = false
 @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params, log_handler: debug_log_handler)
 @title = text_with_key(@ventilation.root)

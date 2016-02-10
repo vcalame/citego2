@@ -41,7 +41,7 @@ class Commands
             if request.params.has_key?('detail_' + request_key)
               other_up_key = request.params['detail_' + request_key].strip
               if other_up_key.length > 0
-                ligature_edit.superior(other_up_key, 'simple/' + categorie)
+                ligature_edit.superior(other_up_key, 'lignesmatrice/' + categorie)
               end
             end
             ligature_edit.text('fr', value)
