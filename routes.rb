@@ -12,7 +12,7 @@ desmoservice_conf = Desmoservice::Conf.new({
   dsmd_script: 'niveau1_par_dimension'
 })
   
-debug=false
+debug=true
 
 def load_public_view(request, desmoservice_conf, debug: false)
   debug_log_handler = nil
