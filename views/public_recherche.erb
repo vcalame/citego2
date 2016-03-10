@@ -9,10 +9,9 @@
 @niveau3 = Array.new()
 
 @terms.each do |term|
-  if term.parent_localkey.length == 2
-    @niveau1 << term
-  end
   case term.parent_localkey
+  when 'niveau1'
+    @niveau1 << term
   when 'niveau2'
     @niveau2 << term
   when 'niveau3'

@@ -2,23 +2,26 @@
 @get_params = Desmoservice::GetParams.new()
 @get_params.with_keys = true
 @get_params.with_parent = true
+@get_params.with_attrs = true
 @get_params.query = query
 @terms = Desmoservice::Get.terms(desmoservice_conf, @get_params)
 @niveau1 = Array.new()
 @niveau2 = Array.new()
 @niveau3 = Array.new()
+@dossiers = Array.new()
 
 @terms.each do |term|
-  if term.parent_localkey.length == 2
-    @niveau1 << term
-  end
   case term.parent_localkey
+  when 'niveau1'
+    @niveau1 << term
   when 'niveau2'
     @niveau2 << term
   when 'niveau3'
     @niveau3 << term
+  when 'dossier'
+    @dossiers << term
   end
-
+  
 end
 
 %>
@@ -45,6 +48,12 @@ end
   <h3 class="public-Secteur">Niveaux 3</h3>
   <% @niveau3.each do |term| %>
     <p id="descripteur_<%= term.id %>"><%= span_color(term, with_links: true, with_removelink: false)%></p>
+  <% end %>
+<% end %>
+<% if @dossiers.length > 0 %>
+  <h3 class="public-Secteur">Dossiers de citego.info</h3>
+  <% @dossiers.each do |term| %>
+    <p id="descripteur_<%= term.id %>"><a class="Dossier" target="_blank" href="<%= term['atlas:url'][0]%>"><%= term.text%></a></p>
   <% end %>
 <% end %>
 </div>
