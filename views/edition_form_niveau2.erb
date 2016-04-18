@@ -4,15 +4,14 @@
 @get_params.ventilation_root_id = id
 @get_params.ventilation_name_context = 'lignesmatrice'
 @get_params.ignore_empty_sectors = false
+@get_params.inferiors_only = true
 @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params, log_handler: debug_log_handler)
 @title = text_with_key(@ventilation.root)
-@categorie = @ventilation.root.localkey[0,1]
 %>
 
 <div class="row">
-  <form action="?page=form_niveau1&amp;id=<%= @ventilation.root.id %>" method="post">
-  <input type="hidden" name="command" value="enregistrement-niveau1"/>
-  <input type="hidden" name="categorie" value="<%= @categorie %>"/>
+  <form action="?page=form_niveau2&amp;id=<%= @ventilation.root.id %>" method="post">
+  <input type="hidden" name="command" value="enregistrement-niveau2"/>
   <div class="col-md-2"></div>
   <div class="col-md-8">
   <h1><%= span_color(@ventilation.root)%></h1>
@@ -29,10 +28,9 @@
         </li>
       <% end %>
       <li class="Descripteur"><textarea cols="70" rows="3" name="create_<%= sector.id %>_1"></textarea>
-      <br>Niveau 1 détaillé : <input type="text" size="10" name="detail_<%= sector.id %>_1">
      </li>
      <li class="Plus" id="Plus_<%= sector.id %>">
-     <div class="Lien_Plus">[<a href="javascript:plus('<%= sector.id %>', true)">plus</a>]</div>
+     <div class="Lien_Plus">[<a href="javascript:plus('<%= sector.id %>', false)">plus</a>]</div>
      </li>
     </ul>
   </div>
