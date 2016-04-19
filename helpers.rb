@@ -41,6 +41,10 @@ helpers do
     result += '<a data-link-type="modal" href="?page=modal_state&amp;id=' + term.id.to_s + '">info</a>'
     result += ' – '
     result += '<a target="_blank" href="../static/desmoclient/desmoclient.html#' + term.id.to_s + '|ventilation:naturelle">desmo</a>'
+    if term.parent_localkey == 'niveau2'
+        result += ' – '
+        result += '<a href="?page=form_niveau2&amp;id=' + term.id.to_s + '">liens</a>'
+    end
     if with_removelink
       result += ' – '
       result += '<a data-link-type="modal" href="?page=modal_remove&amp;id=' + term.id.to_s + '">supprimer</a>'

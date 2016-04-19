@@ -9,6 +9,8 @@ class Commands
     case request['command']
     when 'enregistrement-niveau1'
       return cmd_niveau1(request, desmoservice_conf)
+    when 'enregistrement-niveau2'
+      return cmd_inferiors(request, desmoservice_conf, 694)
     when 'term-change'
       return cmd_termchange(request, desmoservice_conf)
     when 'creation-niveau1'
@@ -46,6 +48,34 @@ class Commands
             end
             ligature_edit.text('fr', value)
             ligature_edit.family(664)
+          end
+        elsif name.start_with?('update_')
+          term_id = name[7..-1].to_i
+          edition.change_term(term_id) do |term_edit|
+            term_edit.text('fr', value)
+          end
+        end
+      end
+    end
+    Desmoservice::Post.xml(desmoservice_conf, edition.close_to_xml, log_handler: Desmoservice::LogHandler.new(log))
+    return log
+  end
+  
+  def self.cmd_inferiors(request, desmoservice_conf, family)
+    log = ''
+    root_id = request['id'].to_i
+    edition = Desmoservice::Edition.new()
+    request.params.each do |name, value|
+      value.strip!
+      if value.length > 0
+        if name.start_with?('create_')
+          request_key = name[7..-1]
+          index = request_key.index('_')
+          sector_id = request_key[0..index].to_i
+          edition.create_ligature do |ligature_edit|
+            ligature_edit.superior(root_id, sector_id)
+            ligature_edit.text('fr', value)
+            ligature_edit.family(family)
           end
         elsif name.start_with?('update_')
           term_id = name[7..-1].to_i

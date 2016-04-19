@@ -4,6 +4,8 @@
 @get_params.ventilation_root_id = id
 @get_params.ventilation_name_context = 'lignesmatrice'
 @get_params.ignore_empty_sectors = false
+@get_params.with_keys = true
+@get_params.with_parent = true
 @ventilation = Desmoservice::Get.ventilation(desmoservice_conf, @get_params, log_handler: debug_log_handler)
 @title = text_with_key(@ventilation.root)
 @categorie = @ventilation.root.localkey[0,1]

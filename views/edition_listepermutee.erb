@@ -17,6 +17,8 @@ else
 end
 @with_form_js=false
 @get_params = Desmoservice::GetParams.new()
+@get_params.with_keys = true
+@get_params.with_parent = true
 @get_params.family_filter = @family_filter
 @word_distribution = Desmoservice::Get.word_distribution(desmoservice_conf, @get_params)
 %>
